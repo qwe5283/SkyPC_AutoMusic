@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="SkyPC_AutoMusic.View.UserControlWaitDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkyPC_AutoMusic.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="180" d:Background="{StaticResource MaterialDesignPaper}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <ProgressBar Width="24" Height="24" Margin="16" Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"/>
+            <Label x:Name="Message" HorizontalAlignment="Center" Margin="8"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="8">
+            <Label Content="{Binding Progress}"/>
+            <Label Content="/"/>
+            <Label x:Name="Total"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
