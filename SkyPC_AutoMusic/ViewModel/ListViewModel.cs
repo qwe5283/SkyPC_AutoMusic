@@ -165,7 +165,7 @@ namespace SkyPC_AutoMusic.ViewModel
                     //启用列表视图
                     EA.EventAggregator.GetEvent<EnableListEvent>().Publish(true);
                     //反馈信息
-                    infoFeedback = string.Format("{0}个乐谱导入成功,{1}个乐谱导入失败", successCount, failCount);
+                    infoFeedback = string.Format("{0}首乐谱导入成功,{1}首乐谱导入失败", successCount, failCount);
                     if (showDialog)
                     {
                         if (failCount != 0)
