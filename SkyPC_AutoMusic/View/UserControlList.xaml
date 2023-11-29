@@ -49,8 +49,9 @@
                 <!--<ListView.View>
                     <GridView>
                         <GridViewColumn Header="曲目" DisplayMemberBinding="{Binding name}"/>
-                        <GridViewColumn Header="时长"/>
-                        <GridViewColumn Header="加密" DisplayMemberBinding="{Binding isEncrypted}"/>
+                        <GridViewColumn Header="作者" DisplayMemberBinding="{Binding author}"/>
+                        <GridViewColumn Header="改编者" DisplayMemberBinding="{Binding transcribedBy}"/>
+                        <GridViewColumn Header="调性" DisplayMemberBinding="{Binding pitchLevel}"/>
                     </GridView>
                 </ListView.View>-->
             </ListView>

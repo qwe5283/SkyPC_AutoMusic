@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:SkyPC_AutoMusic.View"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:model="clr-namespace:SkyPC_AutoMusic.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayViewModel}"
              mc:Ignorable="d" 
@@ -19,8 +20,14 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
-        
-        <TextBlock Margin="10" Foreground="{DynamicResource PrimaryHueMidBrush}" HorizontalAlignment="Center" FontSize="20" Text="{Binding Headline}"/>
+
+        <TextBlock Margin="10" Foreground="{DynamicResource PrimaryHueMidBrush}" HorizontalAlignment="Center" FontSize="20" Text="{Binding Headline}">
+            <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding ShowSheetInfoCommand}"/>
+        </i:EventTrigger>  
+    </i:Interaction.Triggers>
+        </TextBlock>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Center">
             <Slider materialDesign:SliderAssist.OnlyShowFocusVisualWhileDragging="True" Height="20" Margin="20" Maximum="1" Value="{Binding SliderProgress}"/>

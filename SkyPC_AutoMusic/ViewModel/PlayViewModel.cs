@@ -135,6 +135,8 @@ namespace SkyPC_AutoMusic.Model
 
         public DelegateCommand NextSongCommand { get; set; }
 
+        public DelegateCommand ShowSheetInfoCommand { get; set; }
+
         #endregion
 
         public PlayViewModel()
@@ -158,6 +160,7 @@ namespace SkyPC_AutoMusic.Model
             SwitchModeCommand = new DelegateCommand(SwitchMode);
             TogglePlayCommand = new DelegateCommand(TogglePlay);
             NextSongCommand = new DelegateCommand(() => { ToggleSong(true); });
+            ShowSheetInfoCommand = new DelegateCommand(ShowSheetInfo);
             //更新UI
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(200);
@@ -271,6 +274,62 @@ namespace SkyPC_AutoMusic.Model
             EA.EventAggregator.GetEvent<SynchronizeDetailedTitleBarEvent>().Publish();
         }
 
+        private void ShowSheetInfo()
+        {
+            if (player.currentSong != null)
+            {
+                string info = "歌曲详情\n";
+                info += "\n曲名: " + player.currentSong.name;
+                info += "\n作者: " + player.currentSong.author;
+                info += "\n改编者: " + player.currentSong.transcribedBy;
+
+                string pitchLevel = string.Empty;
+                switch (player.currentSong.pitchLevel)
+                {
+                    case 0:
+                        pitchLevel = "C";
+                        break;
+                    case 1:
+                        pitchLevel = "D♭";
+                        break;
+                    case 2:
+                        pitchLevel = "D";
+                        break;
+                    case 3:
+                        pitchLevel = "E♭";
+                        break;
+                    case 4:
+                        pitchLevel = "E";
+                        break;
+                    case 5:
+                        pitchLevel = "F";
+                        break;
+                    case 6:
+                        pitchLevel = "G♭";
+                        break;
+                    case 7:
+                        pitchLevel = "G";
+                        break;
+                    case 8:
+                        pitchLevel = "A♭";
+                        break;
+                    case 9:
+                        pitchLevel = "A";
+                        break;
+                    case 10:
+                        pitchLevel = "B♭";
+                        break;
+                    case 11:
+                        pitchLevel = "B";
+                        break;
+                    default:
+                        break;
+                }
+                info += "\n调性: " + pitchLevel;
+
+                SendDialog.MessageTips(info);
+            }
+        }
 
         private void PlayEndAction()
         {

@@ -9,7 +9,7 @@
              xmlns:sys="http://schemas.microsoft.com/winfx/2009/xaml"
              d:DataContext="{d:DesignInstance Type=viewmodel:OptionsViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="550" d:Background="#FFE5E5E5">
+             d:DesignHeight="800" d:DesignWidth="550" d:Background="#FFE5E5E5">
     <Control.Resources>
         <ResourceDictionary>
             <Style x:Key="MaterialDesignOutlinedCard" TargetType="{x:Type materialDesign:Card}">
@@ -78,7 +78,7 @@
                     </DockPanel>
                 </materialDesign:Card>
                 <!--标签-->
-                <Label Content="通用" Margin="10,0" FontWeight="Bold"/>
+                <Label Content="弹奏" Margin="10,0" FontWeight="Bold"/>
                 <!--延音-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
@@ -95,14 +95,23 @@
                         <TextBlock Text="使用SkyStudio的键位映射" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
-                <!--版本信息-->
+                <!--标签-->
+                <Label Content="关于" Margin="10,0" FontWeight="Bold"/>
+                <!--开源地址-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
                         <Button DockPanel.Dock="Right" Margin="5,0" Style="{StaticResource MaterialDesignIconButton}" Command="{Binding OpenWebPageCommand}" Cursor="Hand">
                             <materialDesign:PackIcon Foreground="{DynamicResource MaterialDesignBody}" Kind="ChevronRight" />
                         </Button>
+                        <materialDesign:PackIcon VerticalAlignment="Center" Kind="Github" Margin="15"/>
+                        <TextBlock Text="开源地址" VerticalAlignment="Center" />
+                    </DockPanel>
+                </materialDesign:Card>
+                <!--版本信息-->
+                <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
+                    <DockPanel>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="InformationOutline" Margin="15"/>
-                        <TextBlock Text="Version 2.1 (2023.11.23)" VerticalAlignment="Center" />
+                        <TextBlock Text="版本 2.1 (2023.11.30)" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
             </StackPanel>

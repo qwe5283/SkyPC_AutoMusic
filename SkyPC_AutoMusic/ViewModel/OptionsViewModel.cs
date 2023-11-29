@@ -24,7 +24,7 @@ namespace SkyPC_AutoMusic.ViewModel
 {
     internal class OptionsViewModel : NotificationObject
     {
-        private string url = "https://space.bilibili.com/501415702";
+        private string url = "https://github.com/qwe5283/SkyPC_AutoMusic";
 
         private Settings settings;
 
@@ -97,7 +97,7 @@ namespace SkyPC_AutoMusic.ViewModel
                 settings.DelayToReleaseKey = value;
                 EA.EventAggregator.GetEvent<SwitchDelayToReleaseEvent>().Publish(value);
                 if (value)
-                    SendDialog.MessageTips("部分乐谱与此功能不兼容，若演奏过程出现意外的缺音，请关闭此功能");
+                    SendDialog.MessageTips("部分乐谱与此功能不兼容，若演奏过程出现意外缺音吞音，请关闭此功能");
                 OnPropertyChanged();
                 Save();
             }

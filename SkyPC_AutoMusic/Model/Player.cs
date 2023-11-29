@@ -19,10 +19,11 @@ namespace SkyPC_AutoMusic.Model
         {
             get
             {
-                if (currentSong == null)//没有乐谱
+                if (currentSong == null || isPlayEnd)//没有乐谱
                     return 0;
 
-                double percentage = (DateTime.Now.Subtract(startPlay).TotalMilliseconds * speedModifier) / totalTimeProgress;
+                //double percentage = (DateTime.Now.Subtract(startPlay).TotalMilliseconds / speedModifier) / totalTimeProgress;
+                double percentage = (double)currentSong.Beats[currentBeatIndex].Time / (double)totalTimeProgress;
                 return percentage;
             }
             set
@@ -48,9 +49,18 @@ namespace SkyPC_AutoMusic.Model
                 //startPlay = DateTime.Now.Subtract(TimeSpan.FromMilliseconds(past / speedModifier));
 
                 currentBeatIndex = (int)((currentSong.Beats.Count - 1) * value);
-                startPlay = DateTime.Now.AddMilliseconds(-currentSong.Beats[currentBeatIndex].Time * speedModifier);
+                startPlay = DateTime.Now.AddMilliseconds(-currentSong.Beats[currentBeatIndex].Time / speedModifier);
 
                 UpdateCurrentTimeLabel();
+
+                if (isDelayToReleaseKey && !isPlayEnd && !isStop)
+                {
+                    //抬起所有按键
+                    foreach (NoteKey notekey in Enum.GetValues(typeof(NoteKey)))
+                    {
+                        SendKey(notekey, false);
+                    }
+                }
             }
         }
 
@@ -116,6 +126,8 @@ namespace SkyPC_AutoMusic.Model
         private int currentBeatIndex;
         // 开始播放时间
         private DateTime startPlay;
+        // 节拍进度
+        private int beatIntervalProgress;
         // 按下了停止
         public bool isStop = true;
         // 播放完当前乐谱
@@ -197,8 +209,9 @@ namespace SkyPC_AutoMusic.Model
         #region 私有方法
         private void UpdateCurrentTimeLabel()
         {
-            TimeSpan ts = DateTime.Now.Subtract(startPlay);
-            ts = TimeSpan.FromMilliseconds(ts.TotalMilliseconds * speedModifier);
+            //TimeSpan ts = DateTime.Now.Subtract(startPlay);
+            //ts = TimeSpan.FromMilliseconds(ts.TotalMilliseconds * speedModifier);
+            TimeSpan ts = TimeSpan.FromMilliseconds(currentSong.Beats[currentBeatIndex].Time);
             currentTime = string.Format("{0:mm\\:ss}", ts);
         }
 
@@ -243,15 +256,17 @@ namespace SkyPC_AutoMusic.Model
 
         private void AutoPlay()
         {
+            //缓存
+            int beatIndex = currentBeatIndex;
             //读取按键
             List<NoteKey> keys;
             if (currentSong != null)
-                keys = currentSong.Beats[currentBeatIndex].Keys;
+                keys = currentSong.Beats[beatIndex].Keys;
             else
                 return;
 
             //判断时间
-            int time = currentSong.Beats[currentBeatIndex].Time;
+            int time = currentSong.Beats[beatIndex].Time;
             bool flag = DateTime.Now > startPlay.AddMilliseconds(time / speedModifier);
 
             if (flag)
@@ -268,13 +283,13 @@ namespace SkyPC_AutoMusic.Model
                 //抬起
                 foreach (NoteKey key in keys)
                 {
-                    if (currentBeatIndex == currentSong.Beats.Count - 1 || !isDelayToReleaseKey)//最后一拍或关闭延音功能
+                    if (beatIndex == currentSong.Beats.Count - 1 || !isDelayToReleaseKey)//最后一拍或关闭延音功能
                     {
                         //正常抬起
                         SendKey(key, false);
                         continue;
                     }
-                    else if (!currentSong.Beats[currentBeatIndex + 1].Keys.Contains(key))//下一拍不包含音节
+                    else if (!currentSong.Beats[beatIndex + 1].Keys.Contains(key))//下一拍不包含音节
                     {
                         //延音抬起
                         SendKey(key, false);

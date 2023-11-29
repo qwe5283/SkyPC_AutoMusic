@@ -293,8 +293,8 @@ namespace SkyPC_AutoMusic.ViewModel
             int singleBeatInterval = 60000 / sheet.bpm;
 
             //拍数
-            int LastBeatsCount = sheet.songNotes.Max(item => item.time) / singleBeatInterval;//sheet.songNotes[sheet.songNotes.Count - 1].time / singleBeatInterval;
-            int totalBeatsCount = ((LastBeatsCount + song.bitsPerPage - 1) / song.bitsPerPage) * 16;
+            int LastBeatsCount = (sheet.songNotes.Max(item => item.time) + singleBeatInterval) / singleBeatInterval;//sheet.songNotes[sheet.songNotes.Count - 1].time / singleBeatInterval;
+            int totalBeatsCount = ((LastBeatsCount + song.bitsPerPage - 1) / song.bitsPerPage) * song.bitsPerPage;
 
             //为每个节拍赋值
             for (int i = 0; i < totalBeatsCount ; i++)
