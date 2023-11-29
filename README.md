@@ -1,14 +1,14 @@
 # SkyPC_Auto_Music
 
-Sky PC Auto Music ÊÇÒ»¿îÓÃÓÚÔÚÓÎÏ· Sky: Children of the Light ÖÐ×Ô¶¯µ¯×àÀÖÆ÷µÄÈí¼þ
+Sky PC Auto Music æ˜¯ä¸€æ¬¾ç”¨äºŽåœ¨æ¸¸æˆ Sky: Children of the Light ä¸­è‡ªåŠ¨å¼¹å¥ä¹å™¨çš„è½¯ä»¶
 
-## ¹¦ÄÜ
+## åŠŸèƒ½
 
-- ÄÜ¹»¶ÁÈ¡Èí¼þ Sky Studio ÖÆ×÷µÄÀÖÆ×
-- ÄÜ¹»µ÷½Ú²¥·Å±¶ËÙÓë²¥·Å½ø¶È
-- ÄÜ¹»ÅúÁ¿µ¼ÈëÀÖÆ×
-- ÄÜ¹»ºÏ²¢ÏàÁÚ½ÚÅÄÏàÍ¬Òô½ÚÎªÒ»¸öÒô
+- èƒ½å¤Ÿè¯»å–è½¯ä»¶ Sky Studio åˆ¶ä½œçš„ä¹è°±
+- èƒ½å¤Ÿè°ƒèŠ‚æ’­æ”¾å€é€Ÿä¸Žæ’­æ”¾è¿›åº¦
+- èƒ½å¤Ÿæ‰¹é‡å¯¼å…¥ä¹è°±
+- èƒ½å¤Ÿåˆå¹¶ç›¸é‚»èŠ‚æ‹ç›¸åŒéŸ³èŠ‚ä¸ºä¸€ä¸ªéŸ³
 
-## ½ØÍ¼
+## æˆªå›¾
 
-![Èí¼þ½ØÍ¼](assets/screenshot.jpg)
+![è½¯ä»¶æˆªå›¾](assets/screenshot.jpg)
