@@ -127,18 +127,11 @@ namespace SkyPC_AutoMusic.ViewModel
                 {
                     if (Path.GetExtension(file).ToLower() == ".txt")
                     {
-                        try
+                        Sheet song;
+                        //从文件实例化类
+                        song = ReadJson(file);
+                        if (song != null)//成功
                         {
-                            Sheet song;
-                            //从文件实例化类
-                            try
-                            {
-                                song = ReadJson(file);
-                            }
-                            catch
-                            {
-                                song = ReReadJson(file);
-                            }
                             //计数
                             successCount++;
                             //添加至列表
@@ -147,10 +140,11 @@ namespace SkyPC_AutoMusic.ViewModel
                                 SheetList.Add(ConvertSheetToSong(song));
                             });
                         }
-                        catch
+                        else//失败
                         {
                             failCount++;
                             failureList += ("\n\n" + file);
+
                         }
 
                         total++;
@@ -194,22 +188,31 @@ namespace SkyPC_AutoMusic.ViewModel
 
         private Sheet ReadJson(string path)
         {
-            // 读取文件内容  
-            string rawJson = File.ReadAllText(path);
-            // 掐头掐尾
-            string json = rawJson.Substring(1, rawJson.Length - 3);
-            // 反序列化成C#对象  
-            return JsonConvert.DeserializeObject<Sheet>(json);
-        }
+            Sheet result;
+            for (int i = 2; i < 6; i++)//掐尾长度
+            {
+                try
+                {
+                    // 读取文件内容  
+                    string rawJson = File.ReadAllText(path);
+                    // 掐头掐尾
+                    string json = rawJson.Substring(1, rawJson.Length - i);
+                    // 反序列化成C#对象  
+                    result = JsonConvert.DeserializeObject<Sheet>(json);
+                    //检查属性
+                    if(result.bitsPerPage == 0)
+                    {
+                        result.bitsPerPage = 16;
+                    }
 
-        private Sheet ReReadJson(string path)
-        {
-            // 读取文件内容  
-            string rawJson = File.ReadAllText(path);
-            // 掐头掐尾
-            string json = rawJson.Substring(1, rawJson.Length - 4);
-            // 反序列化成C#对象  
-            return JsonConvert.DeserializeObject<Sheet>(json);
+                    return result;
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+            return null;
         }
 
         private void AddSong()
@@ -222,30 +225,26 @@ namespace SkyPC_AutoMusic.ViewModel
             string infoFeedback = string.Empty;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                try
+                Sheet song;
+                //从文件实例化类
+                song = ReadJson(dialog.FileName);
+                if (song != null)
                 {
-                    Sheet song;
-                    //从文件实例化类
-                    try
-                    {
-                        song = ReadJson(dialog.FileName);
-                    }
-                    catch
-                    {
-                        song = ReReadJson(dialog.FileName);
-                    }
                     //添加至列表
                     SheetList.Add(ConvertSheetToSong(song));
                     infoFeedback = string.Format("{0} 导入成功", song.name);
                 }
-                catch
+                else
                 {
                     infoFeedback = string.Format("乐谱导入失败,请检查乐谱格式是否正确\n\n(目前仅支持导入未加密Json乐谱)");
                 }
-                //传递乐谱数
-                EA.EventAggregator.GetEvent<PassSheetsCountEvent>().Publish(sheetList.Count);
-                //切歌
-                EA.EventAggregator.GetEvent<FolderSwitchEvent>().Publish();
+                if (sheetList.Count > 0)
+                {
+                    //传递乐谱数
+                    EA.EventAggregator.GetEvent<PassSheetsCountEvent>().Publish(sheetList.Count);
+                    //切歌
+                    EA.EventAggregator.GetEvent<FolderSwitchEvent>().Publish();
+                }
                 SendDialog.MessageTips(infoFeedback);
             }
         }
