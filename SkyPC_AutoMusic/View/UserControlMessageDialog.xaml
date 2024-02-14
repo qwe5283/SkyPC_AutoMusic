@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:SkyPC_AutoMusic.View"
+             xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
              mc:Ignorable="d"
              x:Name="Dialog"
              MaxWidth="400"
@@ -21,6 +22,6 @@
                 <TextBlock x:Name="Message" Margin="15" FontSize="14" Grid.Row="0" TextWrapping="Wrap"/>
             </ScrollViewer>
         </DockPanel>
-        <Button Grid.Row="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right" Margin="6" Content="确认" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+        <Button Grid.Row="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right" Margin="6" Content="{x:Static loc:Resources.Options_Confirm}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
     </Grid>
 </UserControl>

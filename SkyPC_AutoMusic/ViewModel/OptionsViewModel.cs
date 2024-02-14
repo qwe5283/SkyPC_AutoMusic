@@ -9,11 +9,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -27,6 +31,8 @@ namespace SkyPC_AutoMusic.ViewModel
         private string url = "https://github.com/qwe5283/SkyPC_AutoMusic";
 
         private Settings settings;
+
+        private ComboBox LanguageComboBox;
 
         //乐谱文件夹路径
         public string FolderPath
@@ -68,7 +74,7 @@ namespace SkyPC_AutoMusic.ViewModel
                 }
                 else
                 {
-                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish("默认主题色将在程序重启后生效");
+                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(Properties.Resources.Options_Tips_RestartApp);
                 }
                 OnPropertyChanged();
                 Save();
@@ -82,7 +88,7 @@ namespace SkyPC_AutoMusic.ViewModel
             set
             {
                 settings.UserImageBackground = value;
-                ChangeBackground(value);
+                ChangeBackground(value,true);
                 OnPropertyChanged();
                 Save();
             }
@@ -97,7 +103,7 @@ namespace SkyPC_AutoMusic.ViewModel
                 settings.DelayToReleaseKey = value;
                 EA.EventAggregator.GetEvent<SwitchDelayToReleaseEvent>().Publish(value);
                 if (value)
-                    SendDialog.MessageTips("部分乐谱与此功能不兼容，若演奏过程出现意外缺音吞音，请关闭此功能");
+                    SendDialog.MessageTips(Properties.Resources.Options_Tips_CombineKeys);
                 OnPropertyChanged();
                 Save();
             }
@@ -117,13 +123,28 @@ namespace SkyPC_AutoMusic.ViewModel
         }
 
         public DelegateCommand OpenWebPageCommand { get; set; }
+        public DelegateCommand LanguageChangedCommand { get; set; }
 
-        public OptionsViewModel()
+        public OptionsViewModel(ComboBox languageComboBox)
         {
+            //读取设置
             settings = Settings.Instance;
-            OpenWebPageCommand = new DelegateCommand(OpenWebPage);
-            EA.EventAggregator.GetEvent<SaveFolderPathEvent>().Subscribe(SaveFolderPath);
             Read();
+            //语言框
+            LanguageComboBox = languageComboBox;
+            var languages = new List<LanguageItem>
+            {
+                new LanguageItem { DisplayName = "Auto", LanguageCode = null },
+                new LanguageItem { DisplayName = "中文", LanguageCode = "zh-CN" },
+                new LanguageItem { DisplayName = "English", LanguageCode = "en-US" }
+            };
+            LanguageComboBox.ItemsSource = languages;
+            LanguageComboBox.SelectedIndex = languages.FindIndex(l => l.LanguageCode == settings.LanguageCode);
+            //命令绑定
+            OpenWebPageCommand = new DelegateCommand(OpenWebPage);
+            LanguageChangedCommand = new DelegateCommand(LanguageComboBoxChanged);
+            EA.EventAggregator.GetEvent<SaveFolderPathEvent>().Subscribe(SaveFolderPath);
+            //应用读取的设置
             ApplyAllOptions();
         }
 
@@ -145,7 +166,7 @@ namespace SkyPC_AutoMusic.ViewModel
                 catch
                 {
                     Save();
-                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish("设置文件读取失败，所有设置项已重置为默认值");
+                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(Properties.Resources.Options_ReadConfigFailure);
                 }
             }
         }
@@ -187,7 +208,7 @@ namespace SkyPC_AutoMusic.ViewModel
                 }
                 else
                 {
-                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish("从设置文件读取路径失败");
+                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(Properties.Resources.Options_ReadPathFailure);
                 }
             }
             //深色模式
@@ -203,7 +224,7 @@ namespace SkyPC_AutoMusic.ViewModel
             //延音
             EA.EventAggregator.GetEvent<SwitchDelayToReleaseEvent>().Publish(DelayToReleaseKey);
             //背景图像
-            ChangeBackground(UserImageBackground);
+            ChangeBackground(UserImageBackground,false);
         }
 
         //切换深色模式
@@ -217,7 +238,7 @@ namespace SkyPC_AutoMusic.ViewModel
         }
 
         //切换背景图像
-        private void ChangeBackground(bool useBackground)
+        private void ChangeBackground(bool useBackground,bool sendFailureMessage)
         {
             bool fileExist;
             string imgPath = AppDomain.CurrentDomain.BaseDirectory + "bg.jpg";
@@ -245,12 +266,18 @@ namespace SkyPC_AutoMusic.ViewModel
                     if (ShouldUseDarkMode(bitmap) != DarkTheme)
                     {
                         DarkTheme = !DarkTheme;
-                        EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish("深色模式设置项已由程序修改");
                     }
                 }
                 else//图片不存在
                 {
-                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish("未找到背景图片，请将bg.jpg(或bg.png)与程序放在同一目录下");
+                    if (sendFailureMessage)
+                    {
+                        SendDialog.MessageTips(Properties.Resources.Options_Tips_MissBackgroundFile);
+                    }
+                    else
+                    {
+                        //EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(Properties.Resources.Options_Tips_MissBackgroundFile);
+                    }
                 }
             }
             else//删除背景图片
@@ -307,7 +334,7 @@ namespace SkyPC_AutoMusic.ViewModel
         }
 
         //打开网页
-        public void OpenWebPage()
+        private void OpenWebPage()
         {
             Process.Start(new ProcessStartInfo(url)
             {
@@ -316,6 +343,24 @@ namespace SkyPC_AutoMusic.ViewModel
             });
         }
 
+        //切换语言
+        private void LanguageComboBoxChanged()
+        {
+            ResourceManager resourceManager = new ResourceManager("SkyPC_AutoMusic.Properties.Resources",typeof(OptionsViewModel).Assembly);
+            LanguageItem selectedItem = (LanguageItem)LanguageComboBox.SelectedItem;
+            string tips;
+            if (selectedItem.LanguageCode != null)
+            {
+                tips = resourceManager.GetString("Options_Tips_RestartApp", new CultureInfo(selectedItem.LanguageCode));
+            }
+            else
+            {
+                tips = Properties.Resources.Options_Tips_RestartApp;
+            }
+            EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(tips);
+            settings.LanguageCode = selectedItem.LanguageCode;
+            Save();
+        }
 
     }
 }

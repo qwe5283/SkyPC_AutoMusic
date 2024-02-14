@@ -118,150 +118,150 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Main_Play" xml:space="preserve">
-    <value>演奏</value>
+    <value>Play</value>
   </data>
   <data name="Main_Settings" xml:space="preserve">
-    <value>设置</value>
+    <value>Options</value>
   </data>
   <data name="Main_Sheets" xml:space="preserve">
-    <value>乐谱</value>
+    <value>Sheets</value>
   </data>
   <data name="Main_WindowTitle" xml:space="preserve">
-    <value>SPAM播放器</value>
+    <value>SPAM Player</value>
   </data>
   <data name="Play_Mode1" xml:space="preserve">
-    <value>播完暂停</value>
-  </data>
-  <data name="Play_Mode2" xml:space="preserve">
-    <value>单曲循环</value>
-  </data>
-  <data name="Play_Mode3" xml:space="preserve">
-    <value>顺序播放</value>
+    <value>Play Once</value>
   </data>
   <data name="Play_Btn_PreviousMusic" xml:space="preserve">
-    <value>切换上一首</value>
+    <value>Previous Music</value>
   </data>
   <data name="Play_Btn_NextMusic" xml:space="preserve">
-    <value>切换下一首</value>
+    <value>Next Music</value>
+  </data>
+  <data name="Play_Mode2" xml:space="preserve">
+    <value>Loop One</value>
+  </data>
+  <data name="Play_Mode3" xml:space="preserve">
+    <value>Play In Order</value>
   </data>
   <data name="Play_Pause" xml:space="preserve">
-    <value>暂停</value>
+    <value>Pause</value>
   </data>
   <data name="Play_Start" xml:space="preserve">
-    <value>播放</value>
+    <value>Play</value>
   </data>
   <data name="Play_AlreadyFirstMusic" xml:space="preserve">
-    <value>已经是第一首音乐</value>
+    <value>It's already the first music</value>
   </data>
   <data name="Play_AlreadyLastMusic" xml:space="preserve">
-    <value>已经是最后一首音乐</value>
+    <value>It's already the last music</value>
   </data>
   <data name="Play_MissSheet" xml:space="preserve">
-    <value>还没有添加乐谱</value>
+    <value>You need to add a music sheet</value>
   </data>
   <data name="Play_Info_Header" xml:space="preserve">
-    <value>乐谱详情</value>
-  </data>
-  <data name="Play_Info_Name" xml:space="preserve">
-    <value>曲名</value>
-  </data>
-  <data name="Play_Info_Author" xml:space="preserve">
-    <value>作者</value>
-  </data>
-  <data name="Play_Info_TranscribedBy" xml:space="preserve">
-    <value>改编者</value>
-  </data>
-  <data name="Play_Info_PitchLevel" xml:space="preserve">
-    <value>调性</value>
+    <value>Sheet Music Infomation</value>
   </data>
   <data name="List_Btn_Add" xml:space="preserve">
-    <value>添加乐谱文件</value>
+    <value>Add Sheet Music File</value>
   </data>
   <data name="List_Btn_Delete" xml:space="preserve">
-    <value>删除选择的乐谱</value>
+    <value>Delete The Chosen Sheet Music</value>
   </data>
   <data name="List_Btn_ImportFolder" xml:space="preserve">
-    <value>从文件夹批量导入</value>
+    <value>Import Files From Folder</value>
   </data>
   <data name="List_Header_SheetsList" xml:space="preserve">
-    <value>播放列表</value>
+    <value>Sheets List</value>
+  </data>
+  <data name="Play_Info_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Play_Info_Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Play_Info_TranscribedBy" xml:space="preserve">
+    <value>Transcribed By</value>
+  </data>
+  <data name="Play_Info_PitchLevel" xml:space="preserve">
+    <value>Pitch Level</value>
   </data>
   <data name="List_ImportWindowTitle" xml:space="preserve">
-    <value>请选择乐谱文件</value>
+    <value>Please Choose A Sheet Music File</value>
   </data>
   <data name="List_TextFile" xml:space="preserve">
-    <value>文本文件</value>
+    <value>Text File</value>
   </data>
   <data name="List_ImportSuccessfully" xml:space="preserve">
-    <value>导入成功</value>
+    <value>imported successfully</value>
   </data>
   <data name="List_ImportFailure" xml:space="preserve">
-    <value>乐谱导入失败,请检查乐谱格式是否正确</value>
+    <value>Failed to import file</value>
   </data>
   <data name="List_NullDelete" xml:space="preserve">
-    <value>你还没有选择乐谱</value>
+    <value>Choose a sheet music to delete</value>
   </data>
   <data name="List_ImportingFiles" xml:space="preserve">
-    <value>乐谱导入中，请耐心等待</value>
+    <value>Importing Files, Please Wait</value>
   </data>
   <data name="List_ImportResult" xml:space="preserve">
-    <value>{0}首乐谱导入成功,{1}首乐谱导入失败</value>
+    <value>{0} Files Imported Successfully, Failed To Import {1} Files</value>
   </data>
   <data name="List_ImportingInBackground" xml:space="preserve">
-    <value>正在导入{0}首乐谱</value>
+    <value>Importing {0} Files</value>
   </data>
   <data name="List_ImportFailureList" xml:space="preserve">
-    <value>以下是导入失败的文件：</value>
+    <value>Failed To Import Files Below:</value>
   </data>
   <data name="List_ImportFailureTips" xml:space="preserve">
-    <value>(目前仅支持导入未加密Json乐谱)</value>
+    <value>(We can't import sheet music that is encrypted)</value>
   </data>
   <data name="Options_Header_Appearance" xml:space="preserve">
-    <value>外观</value>
+    <value>Appearance</value>
   </data>
   <data name="Options_Language" xml:space="preserve">
-    <value>语言</value>
+    <value>Language</value>
   </data>
   <data name="Options_DarkMode" xml:space="preserve">
-    <value>深色模式</value>
+    <value>Dark Mode</value>
   </data>
   <data name="Options_ThemeColorFollowSystem" xml:space="preserve">
-    <value>主题色跟随系统</value>
+    <value>Theme Color Follow System</value>
   </data>
   <data name="Options_CustomBackground" xml:space="preserve">
-    <value>自定义背景图像</value>
+    <value>Custom Background Image</value>
   </data>
   <data name="Options_CombineKeys" xml:space="preserve">
-    <value>合并连续相同按键</value>
+    <value>Combine Continuous Key</value>
   </data>
   <data name="Options_KeyMapper" xml:space="preserve">
-    <value>使用SkyStudio键位映射</value>
+    <value>Sky Studio Key Mapper</value>
   </data>
   <data name="Options_Header_About" xml:space="preserve">
-    <value>关于</value>
+    <value>About</value>
   </data>
   <data name="Options_GitHub" xml:space="preserve">
-    <value>开源地址</value>
+    <value>GitHub</value>
   </data>
   <data name="Options_Confirm" xml:space="preserve">
-    <value>确定</value>
+    <value>Confirm</value>
   </data>
   <data name="Options_Tips_RestartApp" xml:space="preserve">
-    <value>设置项将在程序重启后生效</value>
+    <value>Restart Application To Apply Options</value>
   </data>
   <data name="Options_Tips_MissBackgroundFile" xml:space="preserve">
-    <value>未找到背景图片，请将bg.jpg(或bg.png)与程序放在同一目录下</value>
+    <value>No background picture found, please put bg.jpg (or bg.png) in the same directory as the program</value>
   </data>
   <data name="Options_Tips_CombineKeys" xml:space="preserve">
-    <value>部分乐谱与此功能不兼容，若演奏过程出现意外缺音吞音，请关闭此功能</value>
+    <value>This feature is not applicable to all music, it is recommended not to use it unless necessary</value>
   </data>
   <data name="Options_ReadConfigFailure" xml:space="preserve">
-    <value>设置文件读取失败，所有设置项已重置为默认值</value>
-  </data>
-  <data name="Options_ReadPathFailure" xml:space="preserve">
-    <value>从设置文件读取路径失败</value>
+    <value>Failed to read settings file, all options have been reset to default values</value>
   </data>
   <data name="UnhandledException" xml:space="preserve">
-    <value>应用程序遇到一些问题，该操作已终止，请联系程序开发者反馈此问题</value>
+    <value>The Application ran into a problem and has been terminated. Please contact the program developer to report this problem</value>
+  </data>
+  <data name="Options_ReadPathFailure" xml:space="preserve">
+    <value>Failed to read path from settings file</value>
   </data>
 </root>

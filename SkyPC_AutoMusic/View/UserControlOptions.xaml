@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:SkyPC_AutoMusic.View"
+             xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
              xmlns:viewmodel="clr-namespace:SkyPC_AutoMusic.ViewModel"
              xmlns:sys="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              d:DataContext="{d:DesignInstance Type=viewmodel:OptionsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="550" d:Background="#FFE5E5E5">
@@ -50,15 +52,34 @@
     <Grid>
         <ScrollViewer  VerticalScrollBarVisibility="Auto" >
             <StackPanel x:Name="Panel">
-                <TextBlock Margin="10" Foreground="{DynamicResource PrimaryHueMidBrush}" HorizontalAlignment="Center" FontSize="20" Text="设置"/>
+                <TextBlock Margin="10" Foreground="{DynamicResource PrimaryHueMidBrush}" HorizontalAlignment="Center" FontSize="20" Text="{x:Static loc:Resources.Main_Settings}"/>
                 <!--标签-->
-                <Label Content="外观" Margin="10,0" FontWeight="Bold"/>
+                <Label Content="{x:Static loc:Resources.Options_Header_Appearance}" Margin="10,0" FontWeight="Bold"/>
+                <!--语言-->
+                <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
+                    <DockPanel>
+                        <ComboBox x:Name="LanguageComboBox" Width="100" DockPanel.Dock="Right" Margin="15,0" Focusable="False">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding LanguageChangedCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ComboBox}}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <materialDesign:PackIcon VerticalAlignment="Center" Kind="Translate" Margin="15"/>
+                        <TextBlock Text="{x:Static loc:Resources.Options_Language}" VerticalAlignment="Center" />
+                    </DockPanel>
+                </materialDesign:Card>
                 <!--深色模式-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
                         <ToggleButton DockPanel.Dock="Right" Margin="15,0" IsChecked="{Binding DarkTheme}"/>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="CircleMultiple" Margin="15"/>
-                        <TextBlock Text="深色模式" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static loc:Resources.Options_DarkMode}" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
                 <!--主题色跟随系统-->
@@ -66,7 +87,7 @@
                     <DockPanel>
                         <ToggleButton DockPanel.Dock="Right" Margin="15,0" IsChecked="{Binding ThemeColorFollowSystem}"/>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="PaletteOutline" Margin="15"/>
-                        <TextBlock Text="主题色跟随系统" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static loc:Resources.Options_ThemeColorFollowSystem}" VerticalAlignment="Center"/>
                     </DockPanel>
                 </materialDesign:Card>
                 <!--自定义背景-->
@@ -74,17 +95,17 @@
                     <DockPanel>
                         <ToggleButton DockPanel.Dock="Right" Margin="15,0" IsChecked="{Binding UserImageBackground}"/>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="ImageOutline" Margin="15"/>
-                        <TextBlock Text="自定义背景图像" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static loc:Resources.Options_CustomBackground}" VerticalAlignment="Center"/>
                     </DockPanel>
                 </materialDesign:Card>
                 <!--标签-->
-                <Label Content="弹奏" Margin="10,0" FontWeight="Bold"/>
+                <Label Content="{x:Static loc:Resources.Main_Play}" Margin="10,0" FontWeight="Bold"/>
                 <!--延音-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
                         <ToggleButton DockPanel.Dock="Right" Margin="15,0" IsChecked="{Binding DelayToReleaseKey}"/>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="VectorCombine" Margin="15"/>
-                        <TextBlock Text="合并连续相同按键" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static loc:Resources.Options_CombineKeys}" VerticalAlignment="Center"/>
                     </DockPanel>
                 </materialDesign:Card>
                 <!--键位映射-->
@@ -92,11 +113,11 @@
                     <DockPanel>
                         <ToggleButton DockPanel.Dock="Right" Margin="15,0" IsChecked="{Binding IsUsingSkyStudioKeyMapper}"/>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="KeyboardOutline" Margin="15"/>
-                        <TextBlock Text="使用SkyStudio的键位映射" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static loc:Resources.Options_KeyMapper}" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
                 <!--标签-->
-                <Label Content="关于" Margin="10,0" FontWeight="Bold"/>
+                <Label Content="{x:Static loc:Resources.Options_Header_About}" Margin="10,0" FontWeight="Bold"/>
                 <!--开源地址-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
@@ -104,14 +125,14 @@
                             <materialDesign:PackIcon Foreground="{DynamicResource MaterialDesignBody}" Kind="ChevronRight" />
                         </Button>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="Github" Margin="15"/>
-                        <TextBlock Text="开源地址" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static loc:Resources.Options_GitHub}" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
                 <!--版本信息-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="InformationOutline" Margin="15"/>
-                        <TextBlock Text="版本 2.1 (2023.11.30)" VerticalAlignment="Center" />
+                        <TextBlock Text="Version 2.1.2 (2024.2.14)" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
             </StackPanel>

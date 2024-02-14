@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkyPC_AutoMusic.View" 
+             xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
              xmlns:viewmodel="clr-namespace:SkyPC_AutoMusic.ViewModel" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -19,19 +20,20 @@
 
         <DockPanel>
             <!--浏览按钮-->
-            <Button DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Margin="20,10" Command="{Binding SelectFolderCommand}" ToolTip="从文件夹中导入" Cursor="Hand">
+            <Button DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Margin="20,10" Command="{Binding SelectFolderCommand}" ToolTip="{x:Static loc:Resources.List_Btn_ImportFolder}" Cursor="Hand">
                 <materialDesign:PackIcon Kind="Folder" />
             </Button>
             <!--删除按钮-->
-            <Button DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Margin="0" Command="{Binding DeleteSelectionCommand}" ToolTip="删除选择的乐谱" Cursor="Hand">
+            <Button DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Margin="0" Command="{Binding DeleteSelectionCommand}" ToolTip="{x:Static loc:Resources.List_Btn_Delete}" Cursor="Hand">
                 <materialDesign:PackIcon Kind="Delete" />
             </Button>
             <!--添加按钮-->
-            <Button DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Margin="20,10" Command="{Binding AddSongCommand}" ToolTip="添加乐谱" Cursor="Hand">
+            <Button DockPanel.Dock="Right" Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Margin="20,10" Command="{Binding AddSongCommand}" ToolTip="{x:Static loc:Resources.List_Btn_Add}" Cursor="Hand">
                 <materialDesign:PackIcon Kind="Add" />
             </Button>
             <!--标签-->
-            <TextBlock VerticalAlignment="Center" Margin="20,10" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="20" Text="{Binding Path=SheetList.Count,StringFormat='播放列表(\{0\})'}"/>
+            <TextBlock VerticalAlignment="Center" Margin="20,10" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="20" Text="{Binding HeaderText}"/>
+            <!--<TextBlock VerticalAlignment="Center" Margin="20,10" Foreground="{DynamicResource PrimaryHueMidBrush}" FontSize="20" Text="{Binding Path=SheetList.Count,StringFormat='播放列表(\{0\})'}"/>-->
         </DockPanel>
 
         <Border Grid.Row="1" Margin="20,0,20,10" BorderBrush="Gray" BorderThickness="5" CornerRadius="5" Opacity="0.7" Cursor="">

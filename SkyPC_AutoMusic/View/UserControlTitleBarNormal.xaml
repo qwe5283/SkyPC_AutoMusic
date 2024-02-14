@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:SkyPC_AutoMusic.View" 
+             xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
              xmlns:viewmodel="clr-namespace:SkyPC_AutoMusic.ViewModel" 
              d:DataContext="{d:DesignInstance Type=viewmodel:TitleBarNormalViewModel}"
              mc:Ignorable="d" 
@@ -28,7 +29,7 @@
             <!--图标-->
             <Image Source="/Logo/app-icon.png" Height="28" Width="28" Margin="10" DockPanel.Dock="Left"/>
             <!--标签-->
-            <TextBlock Style="{DynamicResource TextBlockStyle1}" Padding="8" FontSize="16" Text="SPAM播放器" VerticalAlignment="Center"/>
+            <TextBlock Style="{DynamicResource TextBlockStyle1}" Padding="8" FontSize="16" Text="{x:Static loc:Resources.Main_WindowTitle}" VerticalAlignment="Center"/>
         </DockPanel>
     </materialDesign:ColorZone>
 </UserControl>

@@ -6,11 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkyPC_AutoMusic"
         xmlns:views="clr-namespace:SkyPC_AutoMusic.View"
+        xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
         mc:Ignorable="d"
         Topmost="True"
         ResizeMode="CanMinimize"
         Background="{x:Null}"
-        Title="SPAM播放器" Height="300" Width="500">
+        Title="{x:Static loc:Resources.Main_WindowTitle}" Height="300" Width="500">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="-1" CaptionHeight="0" UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
@@ -37,7 +38,7 @@
                         <TabItem.Header>
                             <StackPanel Width="auto" Height="auto">
                                 <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="Piano" />
-                                <TextBlock HorizontalAlignment="Center" Text="演奏" />
+                                <TextBlock HorizontalAlignment="Center" Text="{x:Static loc:Resources.Main_Play}" />
                             </StackPanel>
                         </TabItem.Header>
                         <Grid>
@@ -49,7 +50,7 @@
                         <TabItem.Header>
                             <StackPanel Width="auto" Height="auto">
                                 <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="DocumentSign" />
-                                <TextBlock HorizontalAlignment="Center" Text="乐谱" />
+                                <TextBlock HorizontalAlignment="Center" Text="{x:Static loc:Resources.Main_Sheets}" />
                             </StackPanel>
                         </TabItem.Header>
                         <Grid>
@@ -61,7 +62,7 @@
                         <TabItem.Header>
                             <StackPanel Width="auto" Height="auto">
                                 <materialDesign:PackIcon Width="24" Height="24" HorizontalAlignment="Center" Kind="Gear" />
-                                <TextBlock HorizontalAlignment="Center" Text="设置" />
+                                <TextBlock HorizontalAlignment="Center" Text="{x:Static loc:Resources.Main_Settings}" />
                             </StackPanel>
                         </TabItem.Header>
                         <Grid>

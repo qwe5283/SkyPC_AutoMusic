@@ -19,6 +19,7 @@ using SkyPC_AutoMusic.View;
 using System.Diagnostics;
 using System.Windows.Threading;
 using System.Windows;
+using System.Threading;
 
 namespace SkyPC_AutoMusic.ViewModel
 {
@@ -43,6 +44,11 @@ namespace SkyPC_AutoMusic.ViewModel
             set { selectedItem = value; }
         }
 
+        public string HeaderText
+        {
+            get { return Properties.Resources.List_Header_SheetsList + "(" + SheetList.Count.ToString() + ")"; }
+        }
+
         public DelegateCommand AddSongCommand { get; set; }
 
         public DelegateCommand DeleteSelectionCommand { get; set; }
@@ -65,6 +71,7 @@ namespace SkyPC_AutoMusic.ViewModel
             SelectFolderCommand = new DelegateCommand(SelectFolder);
             SelectionChangeCommand = new DelegateCommand(SelectionChange);
             AddSongCommand = new DelegateCommand(AddSong);
+            SheetList.CollectionChanged += (sender, e) => { OnPropertyChanged("HeaderText"); };
         }
 
         #region 私有方法
@@ -114,11 +121,11 @@ namespace SkyPC_AutoMusic.ViewModel
             //显示等待框
             if (showDialog)
             {
-                var dialog = SendDialog.WaitTips("导入乐谱中，请耐心等候", totalCount);
+                var dialog = SendDialog.WaitTips(Properties.Resources.List_ImportingFiles, totalCount);
             }
             else
             {
-                EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(String.Format("正在导入{0}首乐谱",totalCount));
+                EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(String.Format(Properties.Resources.List_ImportingInBackground,totalCount));
             }
             Task.Run(() =>
             {
@@ -135,10 +142,13 @@ namespace SkyPC_AutoMusic.ViewModel
                             //计数
                             successCount++;
                             //添加至列表
-                            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                            if (System.Windows.Application.Current != null)
                             {
-                                SheetList.Add(ConvertSheetToSong(song));
-                            });
+                                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    SheetList.Add(ConvertSheetToSong(song));
+                                });
+                            }
                         }
                         else//失败
                         {
@@ -159,12 +169,12 @@ namespace SkyPC_AutoMusic.ViewModel
                     //启用列表视图
                     EA.EventAggregator.GetEvent<EnableListEvent>().Publish(true);
                     //反馈信息
-                    infoFeedback = string.Format("{0}首乐谱导入成功,{1}首乐谱导入失败", successCount, failCount);
+                    infoFeedback = string.Format(Properties.Resources.List_ImportResult, successCount, failCount);
                     if (showDialog)
                     {
                         if (failCount != 0)
                         {
-                            infoFeedback += "\n\n(目前仅支持导入未加密Json乐谱)\n\n以下是导入失败的文件:";
+                            infoFeedback += "\n\n" + Properties.Resources.List_ImportFailureTips + "\n\n" + Properties.Resources.List_ImportFailureList;
                             infoFeedback += failureList;
                         }
                         SendDialog.MessageTips(infoFeedback);
@@ -219,8 +229,8 @@ namespace SkyPC_AutoMusic.ViewModel
         {
             //打开对话框
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Title = "请选择乐谱";
-            dialog.Filter = "文本文件(*.txt)|*.txt";
+            dialog.Title = Properties.Resources.List_ImportWindowTitle;
+            dialog.Filter = Properties.Resources.List_TextFile + "(*.txt)|*.txt";
             //反馈信息
             string infoFeedback = string.Empty;
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -232,11 +242,11 @@ namespace SkyPC_AutoMusic.ViewModel
                 {
                     //添加至列表
                     SheetList.Add(ConvertSheetToSong(song));
-                    infoFeedback = string.Format("{0} 导入成功", song.name);
+                    infoFeedback = song.name + " " + Properties.Resources.List_ImportSuccessfully;
                 }
                 else
                 {
-                    infoFeedback = string.Format("乐谱导入失败,请检查乐谱格式是否正确\n\n(目前仅支持导入未加密Json乐谱)");
+                    infoFeedback = Properties.Resources.List_ImportFailure + "\n\n" + Properties.Resources.List_ImportFailureTips;
                 }
                 if (sheetList.Count > 0)
                 {
@@ -263,7 +273,7 @@ namespace SkyPC_AutoMusic.ViewModel
             }
             else
             {
-                SendDialog.MessageTips("你还没选择乐谱");
+                SendDialog.MessageTips(Properties.Resources.List_NullDelete);
             }
         }
 

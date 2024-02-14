@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:SkyPC_AutoMusic.View"
+             xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:model="clr-namespace:SkyPC_AutoMusic.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayViewModel}"
@@ -21,7 +22,7 @@
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Margin="10" Foreground="{DynamicResource PrimaryHueMidBrush}" HorizontalAlignment="Center" FontSize="20" Text="{Binding Headline}">
+        <TextBlock Margin="10" Foreground="{DynamicResource PrimaryHueMidBrush}" HorizontalAlignment="Center" FontSize="20" Text="{Binding Headline}" Cursor="Hand">
             <i:Interaction.Triggers>
         <i:EventTrigger EventName="MouseLeftButtonDown">
             <i:InvokeCommandAction Command="{Binding ShowSheetInfoCommand}"/>
@@ -36,18 +37,18 @@
                 <Label Content="/" HorizontalContentAlignment="Center" Width="15"/>
                 <Label Content="{Binding TotalTime}" HorizontalContentAlignment="Center" Width="40"/>
             </StackPanel>
-            <Button Style="{StaticResource MaterialDesignFlatButton}" Width="100" VerticalContentAlignment="Top" FontSize="12" Foreground="{DynamicResource MaterialDesignBody}" Command="{Binding SwitchModeCommand}" Content="{Binding PlayModeLabel}" Cursor="Hand"/>
+            <Button Style="{StaticResource MaterialDesignFlatButton}" Width="120" VerticalContentAlignment="Top" FontSize="12" Foreground="{DynamicResource MaterialDesignBody}" Command="{Binding SwitchModeCommand}" Content="{Binding PlayModeLabel}" Cursor="Hand"/>
         </StackPanel>
 
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Cursor="">
-            <Button Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Width="60" Height="60" Margin="10,0" Command="{Binding PreviousSongCommand}" ToolTip="上一首">
+            <Button Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Width="60" Height="60" Margin="10,0" Command="{Binding PreviousSongCommand}" ToolTip="{x:Static loc:Resources.Play_Btn_PreviousMusic}">
                 <materialDesign:PackIcon Width="30" Height="30" Kind="SkipPrevious" />
             </Button>
             <Button Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Width="60" Height="60" Margin="10,0" Command="{Binding TogglePlayCommand}" ToolTip="{Binding TogglePlayButtonLabel}" Cursor="Hand">
                 <materialDesign:PackIcon Width="30" Height="30" Kind="{Binding TogglePlayButtonIcon}" />
             </Button>
-            <Button Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Width="60" Height="60" Margin="10,0" Command="{Binding NextSongCommand}" ToolTip="下一首">
+            <Button Style="{StaticResource MaterialDesignIconButton}" Background="{DynamicResource MaterialDesignTextFieldBoxBackground}" Width="60" Height="60" Margin="10,0" Command="{Binding NextSongCommand}" ToolTip="{x:Static loc:Resources.Play_Btn_NextMusic}">
                 <materialDesign:PackIcon Width="30" Height="30" Kind="SkipNext" />
             </Button>
         </StackPanel>

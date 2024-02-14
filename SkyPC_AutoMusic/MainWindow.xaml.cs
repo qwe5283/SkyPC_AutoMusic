@@ -117,12 +117,13 @@ namespace SkyPC_AutoMusic
         private void SendMessageSnackbar(string message)
         {
             var messageQueue = Snackbar.MessageQueue;
-            messageQueue.Enqueue(message, "确定", (param) => { CloseMessage(); }, null, false, true, TimeSpan.FromMilliseconds(3000));
+            messageQueue.Enqueue(message, Properties.Resources.Options_Confirm, (param) => { CloseMessage(); }, null, false, true, TimeSpan.FromMilliseconds(3000));
         }
 
         private void CloseMessage()
         {
             Snackbar.IsActive = false;
         }
+
     }
 }

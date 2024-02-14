@@ -25,7 +25,8 @@ namespace SkyPC_AutoMusic.View
         public UserControlOptions()
         {
             InitializeComponent();
-            DataContext = new OptionsViewModel();
+            DataContext = new OptionsViewModel(LanguageComboBox);
+            
         }
     }
 }

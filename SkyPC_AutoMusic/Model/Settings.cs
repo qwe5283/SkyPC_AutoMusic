@@ -23,6 +23,7 @@ namespace SkyPC_AutoMusic.Model
 
         //私有变量
         private string folderPath;
+        private string languageCode;
         private bool darkTheme;
         private bool themeColorFollowSystem;
         private bool userImageBackground;
@@ -34,6 +35,13 @@ namespace SkyPC_AutoMusic.Model
         {
             get { return folderPath; }
             set { folderPath = value; }
+        }
+
+        //语言
+        public string LanguageCode
+        {
+            get { return languageCode; }
+            set { languageCode = value; }
         }
 
         //深色模式

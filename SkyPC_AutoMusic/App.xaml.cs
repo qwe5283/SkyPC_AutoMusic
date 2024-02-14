@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SkyPC_AutoMusic.Event;
+using SkyPC_AutoMusic.Model;
+using SkyPC_AutoMusic.Properties;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -6,9 +9,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 
 namespace SkyPC_AutoMusic
 {
@@ -17,7 +22,7 @@ namespace SkyPC_AutoMusic
     /// </summary>
     public partial class App : Application
     {
-        string text = "应用程序遇到一些问题，该操作已终止，请联系程序开发者：\n\n";
+        string text = SkyPC_AutoMusic.Properties.Resources.UnhandledException + "\n\n";
 
         public App()
         {
@@ -39,38 +44,35 @@ namespace SkyPC_AutoMusic
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            //AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
-        }
-
-        private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
-        {
-            Assembly executingAssembly = Assembly.GetExecutingAssembly();
-            var executingAssemblyName = executingAssembly.GetName();
-            var resName = executingAssemblyName.Name + ".resources";
-
-            AssemblyName assemblyName = new AssemblyName(args.Name); string path = "";
-            if (resName == assemblyName.Name)
+            //读取语言
+            XmlSerializer serializer = new XmlSerializer(typeof(Model.Settings));
+            try
             {
-                path = executingAssemblyName.Name + ".g.resources"; ;
-            }
-            else
-            {
-                path = assemblyName.Name + ".dll";
-                if (assemblyName.CultureInfo.Equals(CultureInfo.InvariantCulture) == false)
+                using (StreamReader reader = new StreamReader("settings.xml"))
                 {
-                    path = String.Format(@"{0}\{1}", assemblyName.CultureInfo, path);
+                    string code = ((Model.Settings)(serializer.Deserialize(reader))).LanguageCode;
+                    switch (code)
+                    {
+                        case "zh-CN":
+                            //中文
+                            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
+                            break;
+                        case "en-US":
+                            //英语
+                            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+                            break;
+                        default:
+                            //自动
+                            break;
+                    }
                 }
             }
-
-            using (Stream stream = executingAssembly.GetManifestResourceStream(path))
+            catch
             {
-                if (stream == null)
-                    return null;
-
-                byte[] assemblyRawBytes = new byte[stream.Length];
-                stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
-                return Assembly.Load(assemblyRawBytes);
+                //设置文件读取失败
             }
+         
         }
+
     }
 }

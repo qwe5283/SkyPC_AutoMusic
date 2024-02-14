@@ -89,10 +89,10 @@ namespace SkyPC_AutoMusic.Model
         {
             get
             {
-                if (!player.isStop || player.currentSong == null)
-                    return "暂停";
+                if (!player.isStop)
+                    return Properties.Resources.Play_Pause;
                 else
-                    return "播放";
+                    return Properties.Resources.Play_Start;
             }
         }
 
@@ -112,13 +112,13 @@ namespace SkyPC_AutoMusic.Model
                 switch (playEndMode)
                 {
                     case PlayEndMode.StopPlay:
-                        str = "播完暂停";
+                        str = Properties.Resources.Play_Mode1;
                         break;
                     case PlayEndMode.SinglePlay:
-                        str = "单曲循环";
+                        str = Properties.Resources.Play_Mode2;
                         break;
                     case PlayEndMode.ListPlay:
-                        str = "顺序播放";
+                        str = Properties.Resources.Play_Mode3;
                         break;
                     default:
                         break;
@@ -194,7 +194,7 @@ namespace SkyPC_AutoMusic.Model
             {
                 if (sheetsCount == 0 || isLastSong)//播放列表没有音乐或已经是最后一首
                 {
-                    SendDialog.MessageTips("已经是最后一首音乐");
+                    SendDialog.MessageTips(Properties.Resources.Play_AlreadyLastMusic);
                 }
                 else
                 {
@@ -212,7 +212,7 @@ namespace SkyPC_AutoMusic.Model
                 //已经是第一首
                 if (player.currentSheetIndex == 0)
                 {
-                    SendDialog.MessageTips("已经是第一首音乐");
+                    SendDialog.MessageTips(Properties.Resources.Play_AlreadyFirstMusic);
                 }
                 else
                 {
@@ -231,7 +231,7 @@ namespace SkyPC_AutoMusic.Model
         {
             if (!player.TogglePlay())
             {
-                SendDialog.MessageTips("还没有选择乐谱");
+                SendDialog.MessageTips(Properties.Resources.Play_MissSheet);
             }
             //暂停按钮标签
             OnPropertyChanged("TogglePlayButtonIcon");
@@ -278,10 +278,10 @@ namespace SkyPC_AutoMusic.Model
         {
             if (player.currentSong != null)
             {
-                string info = "歌曲详情\n";
-                info += "\n曲名: " + player.currentSong.name;
-                info += "\n作者: " + player.currentSong.author;
-                info += "\n改编者: " + player.currentSong.transcribedBy;
+                string info = Properties.Resources.Play_Info_Header + "\n";
+                info += "\n" + Properties.Resources.Play_Info_Name + ": " + player.currentSong.name;
+                info += "\n" + Properties.Resources.Play_Info_Author + ": " + player.currentSong.author;
+                info += "\n" + Properties.Resources.Play_Info_TranscribedBy + ": " + player.currentSong.transcribedBy;
 
                 string pitchLevel = string.Empty;
                 switch (player.currentSong.pitchLevel)
@@ -325,7 +325,7 @@ namespace SkyPC_AutoMusic.Model
                     default:
                         break;
                 }
-                info += "\n调性: " + pitchLevel;
+                info += "\n" + Properties.Resources.Play_Info_PitchLevel + ": " + pitchLevel;
 
                 SendDialog.MessageTips(info);
             }
