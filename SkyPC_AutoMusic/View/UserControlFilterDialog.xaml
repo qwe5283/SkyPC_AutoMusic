@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="SkyPC_AutoMusic.View.UserControlFilterDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:SkyPC_AutoMusic.View"
+             xmlns:loc="clr-namespace:SkyPC_AutoMusic.Properties"
+             mc:Ignorable="d" 
+             MinWidth="400"
+             d:DesignHeight="200" d:DesignWidth="400" d:Background="{DynamicResource MaterialDesignPaper}">
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <!--Header-->
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Width="25" Height="25" Margin="10" Kind="Search"/>
+                <TextBlock VerticalAlignment="Center" Text="{x:Static loc:Resources.List_Btn_Search}"/>
+            </StackPanel>
+            <!--Content-->
+            <TextBox  x:Name="TextBox" materialDesign:HintAssist.Hint="{x:Static loc:Resources.List_FilterTips}"  materialDesign:TextFieldAssist.HasClearButton="True" Margin="10" Style="{StaticResource MaterialDesignFilledTextBox}"/>
+        </StackPanel>
+
+        <Button Grid.Row="1" IsDefault="True" Style="{DynamicResource MaterialDesignFlatButton}" HorizontalAlignment="Right" Margin="10" Content="{x:Static loc:Resources.Options_Confirm}" Command="{Binding SetFilterCommand}"/>
+    </Grid>
+</UserControl>

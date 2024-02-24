@@ -25,6 +25,8 @@ namespace SkyPC_AutoMusic.ViewModel
 {
     internal class ListViewModel : NotificationObject
     {
+        private string filterText = String.Empty;
+        private System.Windows.Controls.ListView listView;
 
         #region 公开属性
 
@@ -33,7 +35,6 @@ namespace SkyPC_AutoMusic.ViewModel
         public ObservableCollection<Song> SheetList
         {
             get { return sheetList; }
-            set { sheetList = value; OnPropertyChanged(); }
         }
 
         private Song selectedItem;
@@ -57,13 +58,16 @@ namespace SkyPC_AutoMusic.ViewModel
 
         public DelegateCommand SelectionChangeCommand { get; set; }
 
+        public DelegateCommand FilterDialogCommand { get; set; }
         #endregion
 
-        public ListViewModel()
+        public ListViewModel(System.Windows.Controls.ListView listView)
         {
+            this.listView = listView;
             //私有变量
             EA.EventAggregator.GetEvent<SongSwitchEvent>().Subscribe(SwitchCurrentSong);
             EA.EventAggregator.GetEvent<SelectFolderWithPathEvent>().Subscribe(AutoSelectFolder);
+            EA.EventAggregator.GetEvent<SetFilterEvent>().Subscribe(SetFilter);
             //公开属性
             sheetList = new ObservableCollection<Song>();
             //命令
@@ -71,10 +75,26 @@ namespace SkyPC_AutoMusic.ViewModel
             SelectFolderCommand = new DelegateCommand(SelectFolder);
             SelectionChangeCommand = new DelegateCommand(SelectionChange);
             AddSongCommand = new DelegateCommand(AddSong);
+            FilterDialogCommand = new DelegateCommand(OpenFilterDialog);
             SheetList.CollectionChanged += (sender, e) => { OnPropertyChanged("HeaderText"); };
         }
 
         #region 私有方法
+
+        private void SetFilter(string filterString)
+        {
+            filterText = filterString;
+            listView.Items.Filter = FilterMethod;
+        }
+
+        private bool FilterMethod(object obj)
+        {
+            var sheet = (Song)obj;
+
+            //return sheet.name.Contains(filterText, StringComparison.OrdinalIgnoreCase);
+            return sheet.name.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) > -1;
+        }
+
         private void SelectionChange()
         {
             //获取选中乐谱的索引
@@ -343,6 +363,16 @@ namespace SkyPC_AutoMusic.ViewModel
             string str = "Key" + keyName[0] + keyName.Substring(4);
 
             return (NoteKey)Enum.Parse(typeof(NoteKey), str);
+        }
+
+        private void OpenFilterDialog()
+        {
+            if(PlayViewModel.Instance.IsPlaying())
+            {
+                EA.EventAggregator.GetEvent<PauseSongEvent>().Publish();
+            }
+            DialogHost.Show(new UserControlFilterDialog(filterText), "RootDialog");
+            MainWindow.Instance.Activate();
         }
         #endregion
     }

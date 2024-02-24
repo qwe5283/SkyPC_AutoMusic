@@ -202,7 +202,7 @@
     <value>Choose a sheet music to delete</value>
   </data>
   <data name="List_ImportingFiles" xml:space="preserve">
-    <value>Importing Files, Please Wait</value>
+    <value>Importing Files, Please Wait...</value>
   </data>
   <data name="List_ImportResult" xml:space="preserve">
     <value>{0} Files Imported Successfully, Failed To Import {1} Files</value>
@@ -263,5 +263,11 @@
   </data>
   <data name="Options_ReadPathFailure" xml:space="preserve">
     <value>Failed to read path from settings file</value>
+  </data>
+  <data name="List_Btn_Search" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="List_FilterTips" xml:space="preserve">
+    <value>Enter the filter term here, leaving it blank represents no filtering</value>
   </data>
 </root>

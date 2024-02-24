@@ -41,6 +41,13 @@ namespace SkyPC_AutoMusic.Model
         private DispatcherTimer timer;
 
         #region 公开属性
+        public static PlayViewModel Instance { get; private set; }
+
+        //是否正在播放
+        public bool IsPlaying()
+        {
+            return !player.isStop;
+        }
 
         //进度条值
         public double SliderProgress
@@ -155,6 +162,7 @@ namespace SkyPC_AutoMusic.Model
             playEndMode = PlayEndMode.StopPlay;
             //公开属性
             Headline = "SkyPC AutoMusic";
+            Instance = this;
             //命令
             PreviousSongCommand = new DelegateCommand(() => { ToggleSong(false); });
             SwitchModeCommand = new DelegateCommand(SwitchMode);

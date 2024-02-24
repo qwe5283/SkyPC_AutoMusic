@@ -30,6 +30,7 @@ namespace SkyPC_AutoMusic
     public partial class MainWindow : Window
     {
         double originalHeight;
+        public static MainWindow Instance { get; private set; }
 
         public MainWindow()
         {
@@ -43,6 +44,7 @@ namespace SkyPC_AutoMusic
             //初始化
             InitializeComponent();
             originalHeight = this.Height;
+            Instance = this;
             //防止窗口成为焦点
             SourceInitialized += (object sender, EventArgs e) =>
             {

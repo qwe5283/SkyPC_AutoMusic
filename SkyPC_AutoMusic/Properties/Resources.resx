@@ -127,7 +127,7 @@
     <value>乐谱</value>
   </data>
   <data name="Main_WindowTitle" xml:space="preserve">
-    <value>SPAM播放器</value>
+    <value>SPAM 播放器</value>
   </data>
   <data name="Play_Mode1" xml:space="preserve">
     <value>播完暂停</value>
@@ -183,6 +183,12 @@
   <data name="List_Btn_ImportFolder" xml:space="preserve">
     <value>从文件夹批量导入</value>
   </data>
+  <data name="List_Btn_Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="List_FilterTips" xml:space="preserve">
+    <value>输入筛选词，留空代表显示所有</value>
+  </data>
   <data name="List_Header_SheetsList" xml:space="preserve">
     <value>播放列表</value>
   </data>
@@ -202,7 +208,7 @@
     <value>你还没有选择乐谱</value>
   </data>
   <data name="List_ImportingFiles" xml:space="preserve">
-    <value>乐谱导入中，请耐心等待</value>
+    <value>乐谱导入中，请耐心等待...</value>
   </data>
   <data name="List_ImportResult" xml:space="preserve">
     <value>{0}首乐谱导入成功,{1}首乐谱导入失败</value>

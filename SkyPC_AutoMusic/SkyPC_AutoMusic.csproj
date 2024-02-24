@@ -265,6 +265,7 @@
     <Compile Include="Event\SelectFolderWithPathEvent.cs" />
     <Compile Include="Event\SendDialog.cs" />
     <Compile Include="Event\SendMessageSnackbar.cs" />
+    <Compile Include="Event\SetFilterEvent.cs" />
     <Compile Include="Event\SongSwitchEvent.cs" />
     <Compile Include="Event\SongSwitchWithIndexEvent.cs" />
     <Compile Include="Event\AddBackgroundEvent.cs" />
@@ -284,6 +285,7 @@
       <DesignTime>True</DesignTime>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="ViewModel\FilterDialogViewModel.cs" />
     <Compile Include="ViewModel\ListViewModel.cs" />
     <Compile Include="ViewModel\NotificationObject.cs" />
     <Compile Include="ViewModel\OptionsViewModel.cs" />
@@ -292,6 +294,9 @@
     <Compile Include="ViewModel\TitleBarDetailViewModel.cs" />
     <Compile Include="ViewModel\TitleBarNormalViewModel.cs" />
     <Compile Include="ViewModel\WaitDialogViewModel.cs" />
+    <Compile Include="View\UserControlFilterDialog.xaml.cs">
+      <DependentUpon>UserControlFilterDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControlList.xaml.cs">
       <DependentUpon>UserControlList.xaml</DependentUpon>
     </Compile>
@@ -326,6 +331,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Style\ScrollViewDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControlFilterDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

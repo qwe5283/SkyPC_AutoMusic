@@ -88,6 +88,24 @@ namespace SkyPC_AutoMusic.Properties {
         }
         
         /// <summary>
+        ///   查找类似 搜索 的本地化字符串。
+        /// </summary>
+        public static string List_Btn_Search {
+            get {
+                return ResourceManager.GetString("List_Btn_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 输入筛选词，留空代表显示所有 的本地化字符串。
+        /// </summary>
+        public static string List_FilterTips {
+            get {
+                return ResourceManager.GetString("List_FilterTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 播放列表 的本地化字符串。
         /// </summary>
         public static string List_Header_SheetsList {
@@ -124,7 +142,7 @@ namespace SkyPC_AutoMusic.Properties {
         }
         
         /// <summary>
-        ///   查找类似 乐谱导入中，请耐心等待 的本地化字符串。
+        ///   查找类似 乐谱导入中，请耐心等待... 的本地化字符串。
         /// </summary>
         public static string List_ImportingFiles {
             get {
@@ -214,7 +232,7 @@ namespace SkyPC_AutoMusic.Properties {
         }
         
         /// <summary>
-        ///   查找类似 SPAM播放器 的本地化字符串。
+        ///   查找类似 SPAM 播放器 的本地化字符串。
         /// </summary>
         public static string Main_WindowTitle {
             get {

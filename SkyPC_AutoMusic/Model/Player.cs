@@ -14,6 +14,7 @@ namespace SkyPC_AutoMusic.Model
 {
     public class Player
     {
+
         //进度条值
         public double SliderProgress
         {
