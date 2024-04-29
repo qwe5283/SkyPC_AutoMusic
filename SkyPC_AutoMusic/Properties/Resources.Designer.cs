@@ -97,7 +97,7 @@ namespace SkyPC_AutoMusic.Properties {
         }
         
         /// <summary>
-        ///   查找类似 输入筛选词，留空代表显示所有 的本地化字符串。
+        ///   查找类似 输入筛选词 的本地化字符串。
         /// </summary>
         public static string List_FilterTips {
             get {

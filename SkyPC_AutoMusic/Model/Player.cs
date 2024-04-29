@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace SkyPC_AutoMusic.Model
 {
@@ -185,6 +186,7 @@ namespace SkyPC_AutoMusic.Model
             if (isStop && !isPlayEnd)//暂停状态
             {
                 //继续播放
+                ChangeFocus();
                 isStop = false;
                 startPlay = DateTime.Now.AddMilliseconds(-currentSong.Beats[currentBeatIndex].Time / speedModifier);
                 StartCycle();
@@ -192,6 +194,7 @@ namespace SkyPC_AutoMusic.Model
             else if (isPlayEnd)//播放完毕
             {
                 //重新播放
+                ChangeFocus();
                 InitializePlay();
                 isStop = false;
                 StartCycle();
@@ -208,6 +211,17 @@ namespace SkyPC_AutoMusic.Model
         #endregion
 
         #region 私有方法
+        //切换焦点
+        private void ChangeFocus()
+        {
+            if (Win32.GetForegroundWindow() == new WindowInteropHelper(MainWindow.Instance).Handle)//此软件为焦点
+            {
+                //切换焦点
+                IntPtr hWnd = MainWindow.Instance.lastActiveWindowHandle;
+                Win32.SetForegroundWindow(hWnd);
+            }
+        }
+
         private void UpdateCurrentTimeLabel()
         {
             //TimeSpan ts = DateTime.Now.Subtract(startPlay);
@@ -310,64 +324,64 @@ namespace SkyPC_AutoMusic.Model
             {
                 switch (key)//YUIOP
                 {
-                    case NoteKey.Key100:
-                    case NoteKey.Key200:
+                    case NoteKey._1Key0:
+                    case NoteKey._2Key0:
                         bVk = 0x59;
                         break;
-                    case NoteKey.Key101:
-                    case NoteKey.Key201:
+                    case NoteKey._1Key1:
+                    case NoteKey._2Key1:
                         bVk = 0x55;
                         break;
-                    case NoteKey.Key102:
-                    case NoteKey.Key202:
+                    case NoteKey._1Key2:
+                    case NoteKey._2Key2:
                         bVk = 0x49;
                         break;
-                    case NoteKey.Key103:
-                    case NoteKey.Key203:
+                    case NoteKey._1Key3:
+                    case NoteKey._2Key3:
                         bVk = 0x4F;
                         break;
-                    case NoteKey.Key104:
-                    case NoteKey.Key204:
+                    case NoteKey._1Key4:
+                    case NoteKey._2Key4:
                         bVk = 0x50;
                         break;
-                    case NoteKey.Key105:
-                    case NoteKey.Key205:
+                    case NoteKey._1Key5:
+                    case NoteKey._2Key5:
                         bVk = 0x48;
                         break;
-                    case NoteKey.Key106:
-                    case NoteKey.Key206:
+                    case NoteKey._1Key6:
+                    case NoteKey._2Key6:
                         bVk = 0x4A;
                         break;
-                    case NoteKey.Key107:
-                    case NoteKey.Key207:
+                    case NoteKey._1Key7:
+                    case NoteKey._2Key7:
                         bVk = 0x4B;
                         break;
-                    case NoteKey.Key108:
-                    case NoteKey.Key208:
+                    case NoteKey._1Key8:
+                    case NoteKey._2Key8:
                         bVk = 0x4C;
                         break;
-                    case NoteKey.Key109:
-                    case NoteKey.Key209:
+                    case NoteKey._1Key9:
+                    case NoteKey._2Key9:
                         bVk = 0xBA;
                         break;
-                    case NoteKey.Key110:
-                    case NoteKey.Key210:
+                    case NoteKey._1Key10:
+                    case NoteKey._2Key10:
                         bVk = 0x4E;
                         break;
-                    case NoteKey.Key111:
-                    case NoteKey.Key211:
+                    case NoteKey._1Key11:
+                    case NoteKey._2Key11:
                         bVk = 0x4D;
                         break;
-                    case NoteKey.Key112:
-                    case NoteKey.Key212:
+                    case NoteKey._1Key12:
+                    case NoteKey._2Key12:
                         bVk = 0xBC;
                         break;
-                    case NoteKey.Key113:
-                    case NoteKey.Key213:
+                    case NoteKey._1Key13:
+                    case NoteKey._2Key13:
                         bVk = 0xBE;
                         break;
-                    case NoteKey.Key114:
-                    case NoteKey.Key214:
+                    case NoteKey._1Key14:
+                    case NoteKey._2Key14:
                         bVk = 0xBF;
                         break;
                     default:
@@ -378,64 +392,64 @@ namespace SkyPC_AutoMusic.Model
             {
                 switch (key)//QWERT
                 {
-                    case NoteKey.Key100:
-                    case NoteKey.Key200:
+                    case NoteKey._1Key0:
+                    case NoteKey._2Key0:
                         bVk = 0x51;
                         break;
-                    case NoteKey.Key101:
-                    case NoteKey.Key201:
+                    case NoteKey._1Key1:
+                    case NoteKey._2Key1:
                         bVk = 0x57;
                         break;
-                    case NoteKey.Key102:
-                    case NoteKey.Key202:
+                    case NoteKey._1Key2:
+                    case NoteKey._2Key2:
                         bVk = 0x45;
                         break;
-                    case NoteKey.Key103:
-                    case NoteKey.Key203:
+                    case NoteKey._1Key3:
+                    case NoteKey._2Key3:
                         bVk = 0x52;
                         break;
-                    case NoteKey.Key104:
-                    case NoteKey.Key204:
+                    case NoteKey._1Key4:
+                    case NoteKey._2Key4:
                         bVk = 0x54;
                         break;
-                    case NoteKey.Key105:
-                    case NoteKey.Key205:
+                    case NoteKey._1Key5:
+                    case NoteKey._2Key5:
                         bVk = 0x41;
                         break;
-                    case NoteKey.Key106:
-                    case NoteKey.Key206:
+                    case NoteKey._1Key6:
+                    case NoteKey._2Key6:
                         bVk = 0x53;
                         break;
-                    case NoteKey.Key107:
-                    case NoteKey.Key207:
+                    case NoteKey._1Key7:
+                    case NoteKey._2Key7:
                         bVk = 0x44;
                         break;
-                    case NoteKey.Key108:
-                    case NoteKey.Key208:
+                    case NoteKey._1Key8:
+                    case NoteKey._2Key8:
                         bVk = 0x46;
                         break;
-                    case NoteKey.Key109:
-                    case NoteKey.Key209:
+                    case NoteKey._1Key9:
+                    case NoteKey._2Key9:
                         bVk = 0x47;
                         break;
-                    case NoteKey.Key110:
-                    case NoteKey.Key210:
+                    case NoteKey._1Key10:
+                    case NoteKey._2Key10:
                         bVk = 0x5A;
                         break;
-                    case NoteKey.Key111:
-                    case NoteKey.Key211:
+                    case NoteKey._1Key11:
+                    case NoteKey._2Key11:
                         bVk = 0x58;
                         break;
-                    case NoteKey.Key112:
-                    case NoteKey.Key212:
+                    case NoteKey._1Key12:
+                    case NoteKey._2Key12:
                         bVk = 0x43;
                         break;
-                    case NoteKey.Key113:
-                    case NoteKey.Key213:
+                    case NoteKey._1Key13:
+                    case NoteKey._2Key13:
                         bVk = 0x56;
                         break;
-                    case NoteKey.Key114:
-                    case NoteKey.Key214:
+                    case NoteKey._1Key14:
+                    case NoteKey._2Key14:
                         bVk = 0x42;
                         break;
                     default:

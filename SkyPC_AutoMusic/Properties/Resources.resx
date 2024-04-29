@@ -187,7 +187,7 @@
     <value>搜索</value>
   </data>
   <data name="List_FilterTips" xml:space="preserve">
-    <value>输入筛选词，留空代表显示所有</value>
+    <value>输入筛选词</value>
   </data>
   <data name="List_Header_SheetsList" xml:space="preserve">
     <value>播放列表</value>

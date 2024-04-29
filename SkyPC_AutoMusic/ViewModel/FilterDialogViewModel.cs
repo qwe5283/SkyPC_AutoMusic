@@ -26,7 +26,6 @@ namespace SkyPC_AutoMusic.ViewModel
         private void SetFilter()
         {
             DialogHost.CloseDialogCommand.Execute(null, null);
-            Console.WriteLine(textBox.Text);
             EA.EventAggregator.GetEvent<SetFilterEvent>().Publish(textBox.Text);
         }
     }

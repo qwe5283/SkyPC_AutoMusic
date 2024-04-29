@@ -115,6 +115,11 @@ namespace SkyPC_AutoMusic.ViewModel
 
         private void SelectFolder()
         {
+            //暂停
+            if (PlayViewModel.Instance.IsPlaying())
+            {
+                EA.EventAggregator.GetEvent<PauseSongEvent>().Publish();
+            }
             //打开对话框
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -219,34 +224,54 @@ namespace SkyPC_AutoMusic.ViewModel
         private Sheet ReadJson(string path)
         {
             Sheet result;
-            for (int i = 2; i < 6; i++)//掐尾长度
+
+            // 读取文件内容  
+            string rawJson = File.ReadAllText(path);
+            // 判断是否加密
+            if (rawJson.Contains("\"isEncrypted\":true"))
             {
+                return null;
+            }
+            // 掐头掐尾
+            int startIndex, endIndex;
+            startIndex = rawJson.IndexOf('{');
+            endIndex = rawJson.LastIndexOf('}');
+            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
+            {
+                string json = rawJson.Substring(startIndex, endIndex - startIndex + 1);
+
+                // 反序列化成C#对象
                 try
                 {
-                    // 读取文件内容  
-                    string rawJson = File.ReadAllText(path);
-                    // 掐头掐尾
-                    string json = rawJson.Substring(1, rawJson.Length - i);
-                    // 反序列化成C#对象  
                     result = JsonConvert.DeserializeObject<Sheet>(json);
-                    //检查属性
-                    if(result.bitsPerPage == 0)
-                    {
-                        result.bitsPerPage = 16;
-                    }
-
-                    return result;
                 }
                 catch
                 {
-                    continue;
+                    return null;
                 }
+
+                //检查属性
+                if (result.bitsPerPage == 0)
+                {
+                    result.bitsPerPage = 16;
+                }
+
+                return result;
             }
-            return null;
+            else
+            {
+                return null;
+            }
+
         }
 
         private void AddSong()
         {
+            //暂停
+            if (PlayViewModel.Instance.IsPlaying())
+            {
+                EA.EventAggregator.GetEvent<PauseSongEvent>().Publish();
+            }
             //打开对话框
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = Properties.Resources.List_ImportWindowTitle;
@@ -355,22 +380,30 @@ namespace SkyPC_AutoMusic.ViewModel
 
         private NoteKey ConvertStringToEnum(string keyName)
         {
-            if (keyName.Length == 5)
+            string str = keyName.Insert(0, '_'.ToString());
+            
+            //特判
+            if(str == "_1Key15")
             {
-                keyName = keyName.Insert(4, '0'.ToString());
+                str = "_1Key1";
+            }
+            else if (str[1] == 'K')
+            {
+                str = str.Insert(1,'1'.ToString());
             }
 
-            string str = "Key" + keyName[0] + keyName.Substring(4);
-
+            //将键名转换为枚举
             return (NoteKey)Enum.Parse(typeof(NoteKey), str);
         }
 
         private void OpenFilterDialog()
         {
+            //暂停
             if(PlayViewModel.Instance.IsPlaying())
             {
                 EA.EventAggregator.GetEvent<PauseSongEvent>().Publish();
             }
+            //显示
             DialogHost.Show(new UserControlFilterDialog(filterText), "RootDialog");
             MainWindow.Instance.Activate();
         }

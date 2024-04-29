@@ -26,19 +26,26 @@ namespace SkyPC_AutoMusic
 
         public App()
         {
-            //Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(text + e.ToString(), "意外的操作", MessageBoxButton.OK, MessageBoxImage.Error);
+            var exception = (Exception)e.ExceptionObject;
+            string content = text + exception.Message + "\n" + exception.StackTrace;
+            MessageBox.Show(content, "意外的操作", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Environment.Exit(1);
         }
 
         private void Current_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(text + e.Exception.Message, "意外的操作", MessageBoxButton.OK, MessageBoxImage.Error);
+            string content = text + e.Exception.Message + "\n" + e.Exception.StackTrace;
+            MessageBox.Show(content, "意外的操作", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
+
+            Environment.Exit(1);
         }
 
         protected override void OnStartup(StartupEventArgs e)

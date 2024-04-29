@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,6 +30,9 @@ namespace SkyPC_AutoMusic
     /// </summary>
     public partial class MainWindow : Window
     {
+        //应为焦点的窗口
+        public IntPtr lastActiveWindowHandle = IntPtr.Zero;
+
         double originalHeight;
         public static MainWindow Instance { get; private set; }
 
@@ -46,6 +50,8 @@ namespace SkyPC_AutoMusic
             originalHeight = this.Height;
             Instance = this;
             //防止窗口成为焦点
+            lastActiveWindowHandle = Win32.GetForegroundWindow();
+            Deactivated += MainWindow_Deactivated;
             SourceInitialized += (object sender, EventArgs e) =>
             {
                 var handle = new WindowInteropHelper(this).Handle;
@@ -127,5 +133,9 @@ namespace SkyPC_AutoMusic
             Snackbar.IsActive = false;
         }
 
+        private void MainWindow_Deactivated(object sender, EventArgs e)
+        {
+            lastActiveWindowHandle = Win32.GetForegroundWindow();
+        }
     }
 }
