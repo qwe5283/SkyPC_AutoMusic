@@ -132,7 +132,7 @@
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>
                         <materialDesign:PackIcon VerticalAlignment="Center" Kind="InformationOutline" Margin="15"/>
-                        <TextBlock Text="Version 2.1.4 (2024.4.29)" VerticalAlignment="Center" />
+                        <TextBlock Text="Version 2.1.5 (2024.5.5)" VerticalAlignment="Center" />
                     </DockPanel>
                 </materialDesign:Card>
             </StackPanel>

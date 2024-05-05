@@ -225,44 +225,44 @@ namespace SkyPC_AutoMusic.ViewModel
         {
             Sheet result;
 
-            // 读取文件内容  
-            string rawJson = File.ReadAllText(path);
-            // 判断是否加密
-            if (rawJson.Contains("\"isEncrypted\":true"))
+            try
             {
-                return null;
-            }
-            // 掐头掐尾
-            int startIndex, endIndex;
-            startIndex = rawJson.IndexOf('{');
-            endIndex = rawJson.LastIndexOf('}');
-            if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
-            {
-                string json = rawJson.Substring(startIndex, endIndex - startIndex + 1);
-
-                // 反序列化成C#对象
-                try
-                {
-                    result = JsonConvert.DeserializeObject<Sheet>(json);
-                }
-                catch
+                // 读取文件内容  
+                string rawJson = File.ReadAllText(path);
+                // 判断是否加密
+                if (rawJson.Contains("\"isEncrypted\":true"))
                 {
                     return null;
                 }
-
-                //检查属性
-                if (result.bitsPerPage == 0)
+                // 掐头掐尾
+                int startIndex, endIndex;
+                startIndex = rawJson.IndexOf('{');
+                endIndex = rawJson.LastIndexOf('}');
+                if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
                 {
-                    result.bitsPerPage = 16;
-                }
+                    string json = rawJson.Substring(startIndex, endIndex - startIndex + 1);
 
-                return result;
+                    // 反序列化成C#对象
+                    result = JsonConvert.DeserializeObject<Sheet>(json);
+
+                    //检查属性
+                    if (result.bitsPerPage == 0)
+                    {
+                        result.bitsPerPage = 16;
+                    }
+
+                    return result;
+                }
+                else
+                {
+                    // 读不到Json块
+                    return null;
+                }
             }
-            else
+            catch
             {
                 return null;
             }
-
         }
 
         private void AddSong()
