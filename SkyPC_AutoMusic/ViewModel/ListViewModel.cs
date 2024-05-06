@@ -159,7 +159,7 @@ namespace SkyPC_AutoMusic.ViewModel
                 {
                     if (Path.GetExtension(file).ToLower() == ".txt")
                     {
-                        Sheet song;
+                        Song song;
                         //从文件实例化类
                         song = ReadJson(file);
                         if (song != null)//成功
@@ -171,7 +171,7 @@ namespace SkyPC_AutoMusic.ViewModel
                             {
                                 System.Windows.Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    SheetList.Add(ConvertSheetToSong(song));
+                                    SheetList.Add(song);
                                 });
                             }
                         }
@@ -221,9 +221,10 @@ namespace SkyPC_AutoMusic.ViewModel
             
         }
 
-        private Sheet ReadJson(string path)
+        private Song ReadJson(string path)
         {
-            Sheet result;
+            Sheet sheet;
+            Song song;
 
             try
             {
@@ -243,15 +244,10 @@ namespace SkyPC_AutoMusic.ViewModel
                     string json = rawJson.Substring(startIndex, endIndex - startIndex + 1);
 
                     // 反序列化成C#对象
-                    result = JsonConvert.DeserializeObject<Sheet>(json);
+                    sheet = JsonConvert.DeserializeObject<Sheet>(json);
+                    song = ConvertSheetToSong(sheet);
 
-                    //检查属性
-                    if (result.bitsPerPage == 0)
-                    {
-                        result.bitsPerPage = 16;
-                    }
-
-                    return result;
+                    return song;
                 }
                 else
                 {
@@ -259,8 +255,9 @@ namespace SkyPC_AutoMusic.ViewModel
                     return null;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -280,13 +277,13 @@ namespace SkyPC_AutoMusic.ViewModel
             string infoFeedback = string.Empty;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Sheet song;
+                Song song;
                 //从文件实例化类
                 song = ReadJson(dialog.FileName);
                 if (song != null)
                 {
                     //添加至列表
-                    SheetList.Add(ConvertSheetToSong(song));
+                    SheetList.Add(song);
                     infoFeedback = song.name + " " + Properties.Resources.List_ImportSuccessfully;
                 }
                 else
@@ -329,53 +326,71 @@ namespace SkyPC_AutoMusic.ViewModel
 
         private Song ConvertSheetToSong(Sheet sheet)
         {
-            //基本属性
-            Song song = new Song
+            //检查属性
+            if (sheet.bitsPerPage == 0)
             {
-                name = sheet.name,
-                author = sheet.author,
-                transcribedBy = sheet.transcribedBy,
-                isComposed = sheet.isComposed,
-                bpm = sheet.bpm,
-                bitsPerPage = sheet.bitsPerPage,
-                pitchLevel = sheet.pitchLevel,
-                isEncrypted = sheet.isEncrypted,
-                Beats = new List<Beat>()
-            };
-
-            //每一拍的时间间隔
-            int singleBeatInterval = 60000 / sheet.bpm;
-
-            //拍数
-            int LastBeatsCount = (sheet.songNotes.Max(item => item.time) + singleBeatInterval) / singleBeatInterval;//sheet.songNotes[sheet.songNotes.Count - 1].time / singleBeatInterval;
-            int totalBeatsCount = ((LastBeatsCount + song.bitsPerPage - 1) / song.bitsPerPage) * song.bitsPerPage;
-
-            //为每个节拍赋值
-            for (int i = 0; i < totalBeatsCount ; i++)
+                sheet.bitsPerPage = 16;
+            }
+            if (sheet.bpm == 0)
             {
-                //实例化单个节拍
-                Beat beat = new Beat();
-                beat.Keys = new List<NoteKey>();
-                //单个节拍的开始时间
-                beat.Time = singleBeatInterval * i;
-
-                //单个节拍内的按键
-                foreach (SongNote note in sheet.songNotes)
-                {
-                    if(note.time >= beat.Time && note.time < beat.Time + singleBeatInterval)//单个按键时间位于节拍开始与节拍结束之间
-                    {
-                        //为节拍添加按键
-                        NoteKey key = ConvertStringToEnum(note.key);
-                        beat.Keys.Add(key);
-                    }
-                    
-                }
-
-                //添加节拍
-                song.Beats.Add(beat);
+                sheet.bpm = 240;
             }
 
-            return song;
+            try
+            {
+                //基本属性
+                Song song = new Song
+                {
+                    name = sheet.name,
+                    author = sheet.author,
+                    transcribedBy = sheet.transcribedBy,
+                    isComposed = sheet.isComposed,
+                    bpm = sheet.bpm,
+                    bitsPerPage = sheet.bitsPerPage,
+                    pitchLevel = sheet.pitchLevel,
+                    isEncrypted = sheet.isEncrypted,
+                    Beats = new List<Beat>()
+                };
+
+                //每一拍的时间间隔
+                int singleBeatInterval = 60000 / sheet.bpm;
+
+                //拍数
+                int LastBeatsCount = (sheet.songNotes.Max(item => item.time) + singleBeatInterval) / singleBeatInterval;//sheet.songNotes[sheet.songNotes.Count - 1].time / singleBeatInterval;
+                int totalBeatsCount = ((LastBeatsCount + song.bitsPerPage - 1) / song.bitsPerPage) * song.bitsPerPage;
+
+                //为每个节拍赋值
+                for (int i = 0; i < totalBeatsCount; i++)
+                {
+                    //实例化单个节拍
+                    Beat beat = new Beat();
+                    beat.Keys = new List<NoteKey>();
+                    //单个节拍的开始时间
+                    beat.Time = singleBeatInterval * i;
+
+                    //单个节拍内的按键
+                    foreach (SongNote note in sheet.songNotes)
+                    {
+                        if (note.time >= beat.Time && note.time < beat.Time + singleBeatInterval)//单个按键时间位于节拍开始与节拍结束之间
+                        {
+                            //为节拍添加按键
+                            NoteKey key = ConvertStringToEnum(note.key);
+                            beat.Keys.Add(key);
+                        }
+
+                    }
+
+                    //添加节拍
+                    song.Beats.Add(beat);
+                }
+
+                return song;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         private NoteKey ConvertStringToEnum(string keyName)
@@ -390,6 +405,12 @@ namespace SkyPC_AutoMusic.ViewModel
             else if (str[1] == 'K')
             {
                 str = str.Insert(1,'1'.ToString());
+            }
+            else if (str[1] != '1' && str[1] >= '0' && str[1] <= '9')//键值名为其他数字
+            {
+                StringBuilder sb = new StringBuilder(str);
+                sb[1] = '1';
+                str = sb.ToString();
             }
 
             //将键名转换为枚举
