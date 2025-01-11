@@ -143,6 +143,15 @@ namespace SkyPC_AutoMusic.ViewModel
             int totalCount = files.Count(file => Path.GetExtension(file).ToLower() == ".txt");
             //禁用列表视图
             EA.EventAggregator.GetEvent<EnableListEvent>().Publish(false);
+            //没有可导入文件时直接返回
+            if (totalCount == 0)
+            {
+                infoFeedback = string.Format(Properties.Resources.List_ImportResult, successCount, failCount);
+                SendDialog.MessageTips(infoFeedback);
+                //启用列表视图
+                EA.EventAggregator.GetEvent<EnableListEvent>().Publish(true);
+                return;
+            }
             //显示等待框
             if (showDialog)
             {

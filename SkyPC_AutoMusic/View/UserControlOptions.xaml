@@ -108,6 +108,14 @@
                         <TextBlock Text="{x:Static loc:Resources.Options_CombineKeys}" VerticalAlignment="Center"/>
                     </DockPanel>
                 </materialDesign:Card>
+                <!--后台演奏-->
+                <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
+                    <DockPanel>
+                        <ToggleButton DockPanel.Dock="Right" Margin="15,0" IsChecked="{Binding IsPlayInBackground}"/>
+                        <materialDesign:PackIcon VerticalAlignment="Center" Kind="ArrangeSendBackward" Margin="15"/>
+                        <TextBlock Text="{x:Static loc:Resources.Options_PlayBackground}" VerticalAlignment="Center" />
+                    </DockPanel>
+                </materialDesign:Card>
                 <!--键位映射-->
                 <materialDesign:Card Style="{DynamicResource MaterialDesignOutlinedCard}" Height="Auto">
                     <DockPanel>

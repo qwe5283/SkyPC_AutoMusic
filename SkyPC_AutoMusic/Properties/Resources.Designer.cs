@@ -322,6 +322,15 @@ namespace SkyPC_AutoMusic.Properties {
         }
         
         /// <summary>
+        ///   查找类似 后台演奏 的本地化字符串。
+        /// </summary>
+        public static string Options_PlayBackground {
+            get {
+                return ResourceManager.GetString("Options_PlayBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置文件读取失败，所有设置项已重置为默认值 的本地化字符串。
         /// </summary>
         public static string Options_ReadConfigFailure {
@@ -408,6 +417,15 @@ namespace SkyPC_AutoMusic.Properties {
         public static string Play_Btn_PreviousMusic {
             get {
                 return ResourceManager.GetString("Play_Btn_PreviousMusic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 找不到游戏窗口 的本地化字符串。
+        /// </summary>
+        public static string Play_CantFindWindow {
+            get {
+                return ResourceManager.GetString("Play_CantFindWindow", resourceCulture);
             }
         }
         

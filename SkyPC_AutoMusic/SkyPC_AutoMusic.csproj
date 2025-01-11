@@ -256,6 +256,7 @@
     <Compile Include="Event\FolderSwitchEvent.cs" />
     <Compile Include="Event\HeadlineSwitchEvent.cs" />
     <Compile Include="Event\Options\SwitchDelayToReleaseEvent.cs" />
+    <Compile Include="Event\Options\SwitchPlayBackgroundEvent.cs" />
     <Compile Include="Event\PassProgressToWaitDialogEvent.cs" />
     <Compile Include="Event\PassSheetsCountEvent.cs" />
     <Compile Include="Event\NextPreviousSongEvent.cs" />

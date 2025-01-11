@@ -267,7 +267,13 @@
   <data name="Options_ReadPathFailure" xml:space="preserve">
     <value>从设置文件读取路径失败</value>
   </data>
+  <data name="Options_PlayBackground" xml:space="preserve">
+    <value>后台演奏</value>
+  </data>
   <data name="UnhandledException" xml:space="preserve">
     <value>应用程序遇到一些问题，该操作已终止，请联系程序开发者反馈此问题</value>
+  </data>
+  <data name="Play_CantFindWindow" xml:space="preserve">
+    <value>找不到游戏窗口</value>
   </data>
 </root>

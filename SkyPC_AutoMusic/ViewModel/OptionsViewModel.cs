@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json.Linq;
 using SkyPC_AutoMusic.Command;
 using SkyPC_AutoMusic.Event;
+using SkyPC_AutoMusic.Event.Options;
 using SkyPC_AutoMusic.Model;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,19 @@ namespace SkyPC_AutoMusic.ViewModel
                 EA.EventAggregator.GetEvent<SwitchDelayToReleaseEvent>().Publish(value);
                 if (value)
                     SendDialog.MessageTips(Properties.Resources.Options_Tips_CombineKeys);
+                OnPropertyChanged();
+                Save();
+            }
+        }
+
+        //后台演奏
+        public bool IsPlayInBackground
+        {
+            get { return settings.isPlayInBackground; }
+            set
+            {
+                settings.isPlayInBackground = value;
+                EA.EventAggregator.GetEvent<SwitchPlayBackgroundEvent>().Publish(value);
                 OnPropertyChanged();
                 Save();
             }
@@ -219,10 +233,12 @@ namespace SkyPC_AutoMusic.ViewModel
                 Microsoft.Win32.SystemEvents.UserPreferenceChanged += SwitchThemeColor;
                 SwitchThemeColor(null, null);
             }
-            //键位
+            //初始化键位
             EA.EventAggregator.GetEvent<SwitchSkyStudioKeyMapperEvent>().Publish(IsUsingSkyStudioKeyMapper);
-            //延音
+            //初始化延音
             EA.EventAggregator.GetEvent<SwitchDelayToReleaseEvent>().Publish(DelayToReleaseKey);
+            //初始化后台演奏
+            EA.EventAggregator.GetEvent<SwitchPlayBackgroundEvent>().Publish(IsPlayInBackground);
             //背景图像
             ChangeBackground(UserImageBackground,false);
         }

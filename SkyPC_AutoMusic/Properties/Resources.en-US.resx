@@ -258,9 +258,6 @@
   <data name="Options_ReadConfigFailure" xml:space="preserve">
     <value>Failed to read settings file, all options have been reset to default values</value>
   </data>
-  <data name="UnhandledException" xml:space="preserve">
-    <value>The Application ran into a problem and has been terminated. Please contact the program developer to report this problem</value>
-  </data>
   <data name="Options_ReadPathFailure" xml:space="preserve">
     <value>Failed to read path from settings file</value>
   </data>
@@ -269,5 +266,14 @@
   </data>
   <data name="List_FilterTips" xml:space="preserve">
     <value>Filter Term</value>
+  </data>
+  <data name="Options_PlayBackground" xml:space="preserve">
+    <value>Play In Background</value>
+  </data>
+  <data name="UnhandledException" xml:space="preserve">
+    <value>The Application ran into a problem and has been terminated. Please contact the program developer to report this problem</value>
+  </data>
+  <data name="Play_CantFindWindow" xml:space="preserve">
+    <value>Can't Find Game</value>
   </data>
 </root>

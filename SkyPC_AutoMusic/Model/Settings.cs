@@ -28,6 +28,7 @@ namespace SkyPC_AutoMusic.Model
         private bool themeColorFollowSystem;
         private bool userImageBackground;
         private bool delayToReleaseKey;
+        private bool playInBackground;
         private bool skyStudioKeyMapper;
 
         //文件夹路径
@@ -72,10 +73,17 @@ namespace SkyPC_AutoMusic.Model
             set { delayToReleaseKey = value; }
         }
 
+        //后台播放
+        public bool isPlayInBackground
+        {
+            get { return playInBackground; }
+            set { playInBackground = value; }
+        }
+
         //键位映射
         public bool isUsingSkyStudioKeyMapper
         {
-            get { return skyStudioKeyMapper; ; }
+            get { return skyStudioKeyMapper; }
             set { skyStudioKeyMapper = value; }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using SkyPC_AutoMusic.Event;
+using SkyPC_AutoMusic.Event.Options;
 using SkyPC_AutoMusic.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -146,6 +147,9 @@ namespace SkyPC_AutoMusic.Model
         private bool isUseSkyStudioKeyMapper;
         //延音
         private bool isDelayToReleaseKey;
+        //后台播放
+        private bool isPlayBackground;
+        private IntPtr hWnd;
 
         // 播放完的行为
         Action playEndAction;
@@ -164,6 +168,11 @@ namespace SkyPC_AutoMusic.Model
             {
                 isDelayToReleaseKey = flag;
             });
+            EA.EventAggregator.GetEvent<SwitchPlayBackgroundEvent>().Subscribe((flag) => 
+            { 
+                isPlayBackground = flag;
+                hWnd = GetGamehWnd();
+            } );
         }
 
         public void InitializePlay()
@@ -182,7 +191,17 @@ namespace SkyPC_AutoMusic.Model
         {
             if (currentSong == null)//没有谱子
                 return false;
-            
+
+            if (isPlayBackground)//后台播放获取窗口句柄
+            {
+                hWnd = GetGamehWnd();
+                if(hWnd == IntPtr.Zero)
+                {
+                    EA.EventAggregator.GetEvent<SendMessageSnackbar>().Publish(Properties.Resources.Play_CantFindWindow);
+                    return true;
+                }
+            }
+
             if (isStop && !isPlayEnd)//暂停状态
             {
                 //继续播放
@@ -220,6 +239,19 @@ namespace SkyPC_AutoMusic.Model
                 IntPtr hWnd = MainWindow.Instance.lastActiveWindowHandle;
                 Win32.SetForegroundWindow(hWnd);
             }
+        }
+
+        private IntPtr GetGamehWnd()
+        {
+            IntPtr hwnd = IntPtr.Zero;
+
+            if (hwnd == IntPtr.Zero)
+                hwnd = Win32.FindWindow(null, "Sky");
+
+            if (hwnd == IntPtr.Zero)
+                hwnd = Win32.FindWindow(null, "光·遇");
+
+            return hwnd;
         }
 
         private void UpdateCurrentTimeLabel()
@@ -460,16 +492,37 @@ namespace SkyPC_AutoMusic.Model
             if (bVk != 0)
             {
                 byte bScan = Win32.MapVirtualKey(bVk, 0);
-
+               
                 if (isPress)
                 {
                     //按下
-                    Win32.keybd_event(bVk, bScan, Win32.KEYEVENTF_KEYDOWN, UIntPtr.Zero);
+                    if (isPlayBackground)
+                    {
+                        Win32.PostMessage(hWnd, Win32.WM_ACTIVATE, (IntPtr)Win32.WA_ACTIVE, IntPtr.Zero);
+                        int lp = 1;
+                        lp |= bScan << 16;
+                        Win32.PostMessage(hWnd, Win32.WM_KEYDOWN, (IntPtr)bVk, (IntPtr)lp);
+                    }
+                    else
+                    {
+                        Win32.keybd_event(bVk, bScan, Win32.KEYEVENTF_KEYDOWN, UIntPtr.Zero);
+                    }
                 }
                 else
                 {
                     //释放
-                    Win32.keybd_event(bVk, bScan, Win32.KEYEVENTF_KEYUP, UIntPtr.Zero);
+                    if (isPlayBackground)
+                    {
+                        Win32.PostMessage(hWnd, Win32.WM_ACTIVATE, (IntPtr)Win32.WA_ACTIVE, IntPtr.Zero);
+                        int lp = 1;
+                        lp |= bScan << 16;
+                        lp |= 3 << 30;
+                        Win32.PostMessage(hWnd, Win32.WM_KEYUP, (IntPtr)bVk, (IntPtr)lp);
+                    }
+                    else
+                    {
+                        Win32.keybd_event(bVk, bScan, Win32.KEYEVENTF_KEYUP, UIntPtr.Zero);
+                    }
                 }
             }
         }
